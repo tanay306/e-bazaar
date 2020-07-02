@@ -21,22 +21,30 @@ const SignIn = () =>{
     </InputGroup.Prepend>
     <FormControl aria-label="Amount (to the nearest dollar)" />
     <InputGroup.Append>
-      <InputGroup.Text>@example.com</InputGroup.Text>
+      <InputGroup.Text id="basic-addon1">@example.com</InputGroup.Text>
     </InputGroup.Append>
   </InputGroup>
-
-  <InputGroup>
+  <InputGroup className="mb-3">
     <InputGroup.Prepend>
-      <InputGroup.Text>Password</InputGroup.Text>
+      <InputGroup.Text id="basic-addon1">Password</InputGroup.Text>
     </InputGroup.Prepend>
-    
-  </InputGroup>
-  <InputGroup>
+    <FormControl
+      placeholder="Password"
+      aria-label="Password"
+      aria-describedby="basic-addon1"
+    />
+  </InputGroup> 
+  <InputGroup className="mb-3">
     <InputGroup.Prepend>
-      <InputGroup.Text>Confirm Password</InputGroup.Text>
+      <InputGroup.Text id="basic-addon1">Confirm Password</InputGroup.Text>
     </InputGroup.Prepend>
-    
-  </InputGroup>
+    <FormControl
+      placeholder="re-enter password"
+      aria-label="re-enter password"
+      aria-describedby="basic-addon1"
+    />
+  </InputGroup> 
+  
                           
 
               

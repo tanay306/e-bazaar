@@ -13,23 +13,59 @@ const SignUp = () =>{
       aria-describedby="basic-addon1"
     />
   </InputGroup> 
-
+{/* email*/}
   <InputGroup className="mb-3">
     <InputGroup.Prepend>
-      <InputGroup.Text placeholder="name@gmail.com">Email</InputGroup.Text>
+      <InputGroup.Text>Email</InputGroup.Text>
     </InputGroup.Prepend>
-    
+    <FormControl aria-label="Amount (to the nearest dollar)" />
     <InputGroup.Append>
-      <InputGroup.Text>@example.com</InputGroup.Text>
+      <InputGroup.Text id="basic-addon1">@example.com</InputGroup.Text>
     </InputGroup.Append>
   </InputGroup>
-
-  <InputGroup>
+  <InputGroup className="mb-3">
     <InputGroup.Prepend>
-      <InputGroup.Text>With textarea</InputGroup.Text>
+      <InputGroup.Text id="basic-addon1">Password</InputGroup.Text>
     </InputGroup.Prepend>
-    <FormControl as="textarea" aria-label="With textarea" />
+    <FormControl
+      placeholder="Password"
+      aria-label="Password"
+      aria-describedby="basic-addon1"
+    />
+  </InputGroup> 
+  <InputGroup className="mb-3">
+    <InputGroup.Prepend>
+      <InputGroup.Text id="basic-addon1">Confirm Password</InputGroup.Text>
+    </InputGroup.Prepend>
+    <FormControl
+      placeholder="re-enter password"
+      aria-label="re-enter password"
+      aria-describedby="basic-addon1"
+    />
+  </InputGroup> 
+  <InputGroup className="mb-3">
+    <InputGroup.Prepend>
+      <InputGroup.Text id="basic-addon1">Contact</InputGroup.Text>
+    </InputGroup.Prepend>
+    <FormControl
+      
+      
+      aria-describedby="basic-addon1"
+    />
+  </InputGroup> 
+  <InputGroup className="mb-3">
+    <InputGroup.Prepend><InputGroup.Text>Role</InputGroup.Text> </InputGroup.Prepend>
+      <InputGroup.Checkbox aria-label="Customer" /><InputGroup.Text>Customer</InputGroup.Text>
   </InputGroup>
+  <InputGroup className="mb-3">
+    
+      <InputGroup.Checkbox aria-label="Seller" /><InputGroup.Text>     Seller</InputGroup.Text>
+      
+   
+    
+      
+  </InputGroup>
+  
               
 
               
