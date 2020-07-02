@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
-import {Tabs,Tab, Button,Modal,InputGroup,FormControl } from 'react-bootstrap';
+import {Tabs,Tab, Button,Modal,InputGroup,FormControl, Navbar } from 'react-bootstrap';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
+import ProductCard from './ProductCard';
+import UserProfile from './UserProfle';
 const Login = () => {
         const [show, setShow] = useState(false);
       
@@ -10,8 +12,6 @@ const Login = () => {
         const [key, setKey] = useState('Sign in');
         return (
           <>
-          
-        
          <Button as="input" type="reset" value="Login"  onClick={handleShow}/>
          
               
@@ -42,12 +42,13 @@ const Login = () => {
                   Close
                 </Button>
                 <Button variant="primary" onClick={handleClose}>
-                  Save Changes
+                  Submit
                 </Button>
               </Modal.Footer>
             </Modal>
             
-            
+           <ProductCard />
+           <UserProfile />
           
         </>
           
