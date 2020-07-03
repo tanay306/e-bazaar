@@ -1,28 +1,18 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import Login from './component/Login';
-
+import NavbarComponent from './component/Navbar';
+import AllProduct from './component/AllProduct';
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Login />
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Varun Mehta
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <NavbarComponent />
+        <AllProduct />
       </header>
     </div>
   );
 }
 
 export default App;
+

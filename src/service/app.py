@@ -2,26 +2,34 @@ from flask import Flask, jsonify, request, json, session
 from flask_mysqldb import MySQL
 from passlib.hash import sha256_crypt
 from functools import wraps
+import json
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
+cors = CORS(app, resources={r"/register": {"origins": "http://127.0.0.1:5000"}})
+app.config['CORS_HEADERS'] = 'Content-Type'
 app.config.from_pyfile('config.py')
 
 mysql = MySQL(app)
 
 @app.route('/register', methods=['POST','GET'])
+@cross_origin(origin='*',headers=['Content-Type','Authorization'])
 def register():
     cur = mysql.connection.cursor()
-    username = request.get_json()['username']
-    full_name = request.get_json()['full_name']
-    email = request.get_json()['email']
-    address = request.get_json()['address']
-    area = request.get_json()['area']
-    city_with_pincode = request.get_json()['city_with_pincode']
-    state_name = request.get_json()['address']
-    mobile_number = request.get_json()['mobile_number']
-    password = sha256_crypt.encrypt(request.get_json()['password']).decode('utf-8')
-	
-    cur.execute("INSERT INTO users(username,full_name,email,address,area,city_with_pincode,state_name,mobile_number,password) VALUES( %s, %s, %s, %s)",
+    requestdata=json.loads(request.data)
+    print(requestdata)
+    print(json.loads(request.data)['username'])
+    username = requestdata['username']
+    full_name = requestdata['full_name']
+    email = requestdata['email']
+    address = requestdata['address']
+    area = requestdata['area']
+    city_with_pincode = requestdata['city_with_pincode']
+    state_name = requestdata['state']
+    mobile_number = requestdata['mobile_number']
+    password = requestdata['password']
+
+    cur.execute("INSERT INTO users(username,full_name,email,address,area,city_with_pincode,state_name,mobile_number,password) VALUES( %s, %s, %s, %s,%s,%s,%s,%s,%s)",
                         (username,full_name,email,address,area,city_with_pincode,state_name,mobile_number,password))
     mysql.connection.commit()
 	
@@ -38,7 +46,6 @@ def register():
 	}
     cur.close()
     return jsonify({'result' : result})
-	
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -71,6 +78,27 @@ def login():
 		'username' : session['username']
 	}
     return jsonify({'returning' : returning})
+
+@app.route('/add_items', methods=['GET','POST'])
+@is_logged_in
+@is_admin
+def add_items():
+    if request.method == 'POST':
+        requestdata=json.loads(request.data)
+        title = requestdata['title']
+        description = requestdata['description']
+        price = requestdata['price']
+        disc_price = requestdata['disc_price']
+        size = requestdata['size']
+        colour = requestdata['colour']
+        category = requestdata['category']
+        type_item = requestdata['type']
+        delivery_in_days = requestdata['delivery_in_days']
+        cur = mysql.connection.cursor()
+        cur.execute("INSERT INTO items(user_id, title, description, price, disc_price, size, colour, category, type, delivery_in_days) VALUES(%s, %s, %s, %s, %s, %s)",
+                    (session['userID'], title, description, price, disc_price, size, colour, category, type_item, delivery_in_days))
+        mysql.connection.commit()
+        cur.close()
 
 
 if __name__ == '__main__':
