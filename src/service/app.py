@@ -16,18 +16,20 @@ mysql = MySQL(app)
 @cross_origin(origin='*',headers=['Content-Type','Authorization'])
 def register():
     cur = mysql.connection.cursor()
-    print(json.loads(request.data))
-    username = request.get_json()['username']
-    full_name = request.get_json()['full_name']
-    email = request.get_json()['email']
-    address = request.get_json()['address']
-    area = request.get_json()['area']
-    city_with_pincode = request.get_json()['city_with_pincode']
-    state_name = request.get_json()['address']
-    mobile_number = request.get_json()['mobile_number']
-    password = sha256_crypt.encrypt(request.get_json()['password']).decode('utf-8')
-	
-    cur.execute("INSERT INTO users(username,full_name,email,address,area,city_with_pincode,state_name,mobile_number,password) VALUES( %s, %s, %s, %s)",
+    requestdata=json.loads(request.data)
+    print(requestdata)
+    print(json.loads(request.data)['username'])
+    username = requestdata['username']
+    full_name = requestdata['full_name']
+    email = requestdata['email']
+    address = requestdata['address']
+    area = requestdata['area']
+    city_with_pincode = requestdata['city_with_pincode']
+    state_name = requestdata['state']
+    mobile_number = requestdata['mobile_number']
+    password = requestdata['password']
+
+    cur.execute("INSERT INTO users(username,full_name,email,address,area,city_with_pincode,state_name,mobile_number,password) VALUES( %s, %s, %s, %s,%s,%s,%s,%s,%s)",
                         (username,full_name,email,address,area,city_with_pincode,state_name,mobile_number,password))
     mysql.connection.commit()
 	
