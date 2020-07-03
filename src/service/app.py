@@ -91,6 +91,27 @@ def login():
 	}
     return jsonify({'returning' : returning})
 
+@app.route('/add_items', methods=['GET','POST'])
+@is_logged_in
+@is_admin
+def add_items():
+    if request.method == 'POST':
+        requestdata=json.loads(request.data)
+        title = requestdata['title']
+        description = requestdata['description']
+        price = requestdata['price']
+        disc_price = requestdata['disc_price']
+        size = requestdata['size']
+        colour = requestdata['colour']
+        category = requestdata['category']
+        type_item = requestdata['type']
+        delivery_in_days = requestdata['delivery_in_days']
+        cur = mysql.connection.cursor()
+        cur.execute("INSERT INTO items(user_id, title, description, price, disc_price, size, colour, category, type, delivery_in_days) VALUES(%s, %s, %s, %s, %s, %s)",
+                    (session['userID'], title, description, price, disc_price, size, colour, category, type_item, delivery_in_days))
+        mysql.connection.commit()
+        cur.close()
+
 
 if __name__ == '__main__':
     app.run(debug=True)
