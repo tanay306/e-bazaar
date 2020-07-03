@@ -91,6 +91,30 @@ def login():
 	}
     return jsonify({'returning' : returning})
 
+def is_logged_in(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if 'logged_in' in session:
+            return f(*args, **kwargs)
+        else:
+            return jsonify({'message' : "You are not logged in!!"})
+    return wrap
+
+def is_admin(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if session['role'] == 'admin':
+            return f(*args, **kwargs)
+        else:
+            return jsonify({'message' : "You are not a admin"})
+    return wrap
+
+@app.route('/logout')
+@is_logged_in
+def logout():
+    session.clear()
+    return jsonify({'message' : "You are logged out"})
+
 @app.route('/add_items', methods=['GET','POST'])
 @is_logged_in
 @is_admin
@@ -107,10 +131,147 @@ def add_items():
         type_item = requestdata['type']
         delivery_in_days = requestdata['delivery_in_days']
         cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO items(user_id, title, description, price, disc_price, size, colour, category, type, delivery_in_days) VALUES(%s, %s, %s, %s, %s, %s)",
+        cur.execute("INSERT INTO items(user_id, title, description, price, disc_price, size, colour, category, type, delivery_in_days) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
                     (session['userID'], title, description, price, disc_price, size, colour, category, type_item, delivery_in_days))
         mysql.connection.commit()
         cur.close()
+        return jsonify({'message' : "Item Added"})
+
+@app.route('/delete_item/<string:title>', methods=['POST'])
+@is_logged_in
+def delete_item(title):
+    cur = mysql.connection.cursor()
+    cur.execute("DELETE FROM items WHERE title = %s", [title])
+    mysql.connection.commit()
+    cur.close()
+    return jsonify({'message' : "Item Deleted"})
+
+@app.route('/edit_items<string:id>', methods=['GET','POST'])
+@is_logged_in
+@is_admin
+def edit_items(id):
+    if request.method == 'POST':
+        requestdata=json.loads(request.data)
+        title = requestdata['title']
+        description = requestdata['description']
+        price = requestdata['price']
+        disc_price = requestdata['disc_price']
+        size = requestdata['size']
+        colour = requestdata['colour']
+        category = requestdata['category']
+        type_item = requestdata['type']
+        delivery_in_days = requestdata['delivery_in_days']
+        cur = mysql.connection.cursor()
+        cur.execute("UPDATE items SET title = %s, description = %s, price = %s, disc_price = %s, size = %s, colour = %s, category = %s, type  = %s, delivery_in_days = %s WHERE id=%s",
+                    (title, description, price, disc_price, size, colour, category, type_item, delivery_in_days, [id]))
+        mysql.connection.commit()
+        cur.close()
+        return jsonify({'message' : "Item Edited"})
+
+@app.route('/admin_dashboard', methods=['GET'])
+@is_logged_in
+@is_admin
+def admin_dashboard():
+    cur = mysql.connection.cursor()
+    result = cur.execute("SELECT * FROM items WHERE user_id=%s", session['userID'])
+    if result > 0:
+        items = cur.fetchall()
+        return jsonify({'items' : items})
+    else:
+        return jsonify({'message' : "No Items Found!!!"})
+    cur.close()
+
+@app.route('/category/<string:category_name>', methods=['GET'])
+def category(category_name):
+    cur = mysql.connection.cursor()
+    result = cur.execute("SELECT * FROM items WHERE category=%s", ("category_name"))
+    if result > 0:
+        values = cur.fetchall()
+        return jsonify({'values' : values})
+    else:
+        return jsonify({'message' : "No Items found in this category!!"})
+    cur.close()
+
+@app.route('/add_cart/<string:id>', methods=['GET','POST'])
+@is_logged_in
+def add_cart(id):
+    cur = mysql.connection.cursor()
+    cur.execute("INSERT INTO cart(user_id, item_id) VALUES(%s, %s)",
+                    (session['userID'], [id]))
+    mysql.connection.commit()
+    cur.close()
+    return jsonify({'message' : "Item added to cart"})
+
+@app.route('/cart', methods=['GET'])
+@is_logged_in
+def cart():
+    total = 0
+    count = 0
+    cur = mysql.connection.cursor()
+    result = cur.execute("""SELECT
+                            cart.id,
+                            cart.ordered,
+                            items.id,
+                            items.title,
+                            items.price,
+                            items.disc_price,
+                            items.size,
+                            items.colour,
+                            items.delivery_in_days
+                            FROM cart
+                            INNER JOIN items on items.id = cart.item_id
+                            INNER JOIN users on users.id = cart.user_id
+                            WHERE users.id = {session['userID']}
+                            """)
+    if result>0:
+        cart_items = cur.fetchall()
+        for cart_item in cart_items:
+            total = total + cart_item['disc_price']
+            count = count + cart_item
+        return jsonify({'cart_items' : cart_items, 'total' : total, 'count' : count})
+    else:
+        return jsonify({'message' : "No Item added to the cart"})
+    cur.close()
+
+@app.route('/bill', methods=['GET'])
+@is_logged_in
+def bill():
+    total = 0
+    count = 0
+    cur = mysql.connection.cursor()
+    result = cur.execute("""SELECT
+                            cart.id,
+                            cart.ordered,
+                            items.id,
+                            items.title,
+                            items.price,
+                            items.disc_price,
+                            items.size,
+                            items.colour,
+                            items.delivery_in_days
+                            FROM cart
+                            INNER JOIN items on items.id = cart.item_id
+                            INNER JOIN users on users.id = cart.user_id
+                            WHERE users.id = {session['userID']}
+                            """)
+    if result>0:
+        cart_items = cur.fetchall()
+        for cart_item in cart_items:
+            total = total + cart_item['disc_price']
+            count = count + cart_item
+        return jsonify({'cart_items' : cart_items, 'total' : total, 'count' : count})
+    else:
+        return jsonify({'message' : "No Item added to the cart"})
+    cur.close()
+
+@app.route('/delete_cart/<string:id>', methods=['POST'])
+@is_logged_in
+def delete_cart(id):
+    cur = mysql.connection.cursor()
+    cur.execute("DELETE FROM cart WHERE id = %s", [id])
+    mysql.connection.commit()
+    cur.close()
+    return jsonify({'message' : "Item Deleted From Cart"})
 
 
 if __name__ == '__main__':
