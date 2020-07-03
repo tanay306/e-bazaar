@@ -1,56 +1,44 @@
-import React from 'react';
-import {Tabs,Tab, Button,Modal,InputGroup,FormControl } from 'react-bootstrap';
+import React ,{useState}from 'react';
+import {Tabs,Tab, Button,Modal,InputGroup,FormControl,Form } from 'react-bootstrap';
 const SignIn = () =>{
+const [username,setusername]=useState(null);
+const [password,setPassword]=useState(null);
+console.log(username,password)
+const handleSubmit=(e)=>{
+  e.preventDefault();
+  const data={
+    username,
+    password
+  };
+  fetch('/login',{
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application-json'
+}, body:JSON.stringify(data)
+  })
+.then(res=>res.json())
+.then(res=>console.log(res))
+.catch(err=>console.log(err));
+}
     return(
-        <div>
-            {/* user name */}
-<InputGroup className="mb-3">
-    <InputGroup.Prepend>
-      <InputGroup.Text id="basic-addon1">UserName</InputGroup.Text>
-    </InputGroup.Prepend>
-    <FormControl
-      placeholder="Username"
-      aria-label="Username"
-      aria-describedby="basic-addon1"
-    />
-  </InputGroup> 
-{/* email*/}
-  <InputGroup className="mb-3">
-    <InputGroup.Prepend>
-      <InputGroup.Text>Email</InputGroup.Text>
-    </InputGroup.Prepend>
-    <FormControl aria-label="Amount (to the nearest dollar)" />
-    <InputGroup.Append>
-      <InputGroup.Text id="basic-addon1">@example.com</InputGroup.Text>
-    </InputGroup.Append>
-  </InputGroup>
-  <InputGroup className="mb-3">
-    <InputGroup.Prepend>
-      <InputGroup.Text id="basic-addon1">Password</InputGroup.Text>
-    </InputGroup.Prepend>
-    <FormControl
-      placeholder="Password"
-      aria-label="Password"
-      aria-describedby="basic-addon1"
-    />
-  </InputGroup> 
-  <InputGroup className="mb-3">
-    <InputGroup.Prepend>
-      <InputGroup.Text id="basic-addon1">Confirm Password</InputGroup.Text>
-    </InputGroup.Prepend>
-    <FormControl
-      placeholder="re-enter password"
-      aria-label="re-enter password"
-      aria-describedby="basic-addon1"
-    />
-  </InputGroup> 
-  
-                          
-
-              
-            
-
-            </div>
+      <div>
+      <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="usernameGroup">
+          <Form.Label>Username</Form.Label>
+          <Form.Control onChange={e => setusername((e.target.value))} type="text" placeholder="Enter Username" />
+        </Form.Group>
+    
+      <Form.Group controlId="formBasicPassword">
+        <Form.Label>Password</Form.Label>
+        <Form.Control type="password" 
+        placeholder="Password" 
+        onChange={e => setPassword((e.target.value))}/>
+      </Form.Group>
+      <Button variant="primary" type="submit">
+        Submit
+      </Button>
+    </Form>
+    </div>       
     );
     }  
             
