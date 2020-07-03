@@ -14,12 +14,6 @@ CREATE TABLE `users`
 (100) DEFAULT NULL,
   `address` varchar
 (100) DEFAULT NULL,
-  `area` varchar
-(100) DEFAULT NULL,
-  `city_with_pincode` varchar
-(100) DEFAULT NULL,
-  `state_name` varchar
-(100) DEFAULT NULL,
   `password` varchar
 (100) DEFAULT NULL,
   `role` varchar
@@ -36,7 +30,6 @@ CREATE TABLE `items`
 (100) DEFAULT NULL,
   `description` varchar
 (255) DEFAULT NULL,
-  `img` LONGBLOB DEFAULT NULL,
   `price` varchar
 (50) DEFAULT NULL,
   `disc_price` varchar

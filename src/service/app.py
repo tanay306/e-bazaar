@@ -4,13 +4,17 @@ import os
 from passlib.hash import sha256_crypt
 from functools import wraps
 import json
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
+cors = CORS(app, resources={r"/register": {"origins": "http://127.0.0.1:5000"}})
+app.config['CORS_HEADERS'] = 'Content-Type'
 app.config.from_pyfile('config.py')
 
 mysql = MySQL(app)
 
-@app.route('/register', methods=['POST'])
+@app.route('/register', methods=['POST','GET'])
+@cross_origin(origin='*',headers=['Content-Type','Authorization'])
 def register():
     if request.method == 'POST':
         username = request.get_json()['username']
@@ -62,6 +66,7 @@ def login():
             return jsonify({'message' : "Entered username not found.Please SignUp!!!"})
         cur.close()
 
+# may not work #
 def is_logged_in(f):
     @wraps(f)
     def wrap(*args, **kwargs):
@@ -71,6 +76,7 @@ def is_logged_in(f):
             return jsonify({'message' : "You are not logged in!!"})
     return wrap
 
+# may not work #
 def is_admin(f):
     @wraps(f)
     def wrap(*args, **kwargs):
@@ -80,6 +86,7 @@ def is_admin(f):
             return jsonify({'message' : "You are not a admin"})
     return wrap
 
+# may not work #
 @app.route('/logout')
 @is_logged_in
 def logout():
@@ -106,6 +113,7 @@ def add_items():
         mysql.connection.commit()
         cur.close()
 
+# Doubtful if Works #
 @app.route('/admin_dashboard', methods=['GET'])
 @is_logged_in
 @is_admin
@@ -238,6 +246,7 @@ def home():
         return jsonify({'message' : "No Deals Found"})
     cur.close()
 
+# may not work #
 @app.route('/add_cart/<string:id>', methods=['GET'])
 @is_logged_in
 def add_cart(id):
@@ -274,6 +283,7 @@ def cart():
         return jsonify({'message' : "No Item added to the cart"})
     cur.close()
 
+
 """
 @app.route('/bill', methods=['GET'])
 @is_logged_in
@@ -287,6 +297,7 @@ def bill():
     cur.close()
 """
 
+# may not work #
 @app.route('/delete_cart/<string:id>', methods=['POST'])
 @is_logged_in
 def delete_cart(id):
@@ -296,6 +307,7 @@ def delete_cart(id):
     cur.close()
     return jsonify({'message' : "Item Deleted From Cart"})
 
+# may not work #
 @app.route('/delete_item/<string:title>', methods=['POST'])
 @is_logged_in
 def delete_item(title):
