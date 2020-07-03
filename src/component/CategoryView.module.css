@@ -1,0 +1,17 @@
+:global(.rstm-tree-item-group) {
+   list-style-type: none;
+   display: block;
+   padding-inline-start: 0px;
+}
+:global(.rstm-search) {
+    width: -webkit-fill-available;
+}
+
+:global(.rstm-tree-item) {
+    display: inline-flex;
+}
+
+.CategoryView {
+    color: black;
+    overflow: auto;
+}

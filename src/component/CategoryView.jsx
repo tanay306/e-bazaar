@@ -1,41 +1,37 @@
 import React from 'react';
-import TreeView from 'treeview-react-bootstrap';
+import TreeMenu from 'react-simple-tree-menu';
+import Card from 'react-bootstrap/Card';
+import styles from './CategoryView.module.css';
 
 const CategoryView=()=>{
-    var tree = [
+    const treeData = [
         {
-          text: 'Apparel',
+          key: 'first-level-node-1',
+          label: 'Node 1 at the first level',
+        
           nodes: [
             {
-              text: "T-shirt",
+              key: 'second-level-node-1',
+              label: 'Node 1 at the second level',
               nodes: [
                 {
-                  text: "Grandchild 1"
+                  key: 'third-level-node-1',
+                  label: 'Last node of the branch',
+                  nodes: [] // you can remove the nodes property or leave it as an empty array
                 },
-                {
-                  text: "Grandchild 2"
-                }
-              ]
+              ],
             },
-            {
-              text: "Child 2"
-            }
-          ]
+          ],
         },
         {
-          text: "Parent 2"
+          key: 'first-level-node-2',
+          label: 'Node 2 at the first level',
         },
-        {
-          text: "Parent 3"
-        },
-        {
-          text: "Parent 4"
-        },
-        {
-          text: "Parent 5"
-        }
       ];
-      return (<TreeView data={tree} selectable onClick={e=>console.log(e)} removable/>
-        );
+      return (<div className={styles.CategoryView}><Card style={{ width: '50%' }}>
+      <TreeMenu data={treeData} onClickItem={(e) => console.log(e)}/>
+
+    </Card></div>
+      );
 }
 export default CategoryView;
