@@ -14,12 +14,6 @@ CREATE TABLE `users`
 (100) DEFAULT NULL,
   `address` varchar
 (100) DEFAULT NULL,
-  `area` varchar
-(100) DEFAULT NULL,
-  `city_with_pincode` varchar
-(100) DEFAULT NULL,
-  `state_name` varchar
-(100) DEFAULT NULL,
   `password` varchar
 (100) DEFAULT NULL,
   `role` varchar
@@ -30,13 +24,12 @@ CREATE TABLE `users`
 
 CREATE TABLE `items`
 (
-  `item_id` int NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `user_id` int DEFAULT NULL,
   `title` varchar
 (100) DEFAULT NULL,
   `description` varchar
 (255) DEFAULT NULL,
-  `img` LONGBLOB NOT NULL,
   `price` varchar
 (50) DEFAULT NULL,
   `disc_price` varchar
@@ -52,24 +45,20 @@ CREATE TABLE `items`
   `delivery_in_days` varchar
 (20) DEFAULT NULL,
   PRIMARY KEY
-(`item_id`),
+(`id`),
   KEY `user_id`
 (`user_id`),
-  CONSTRAINT `items_ibfk_1` FOREIGN KEY
-(`user_id`) REFERENCES `users`
-(`id`) ON
-DELETE CASCADE ON
-UPDATE CASCADE
+  FOREIGN KEY(`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE ON UPDATE CASCADE
 )
 
 CREATE TABLE `cart`
 (
-  `cart_id` int NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `user_id` int DEFAULT NULL,
   `item_id` int DEFAULT NULL,
   `ordered` varchar
 (15) DEFAULT False,
-  PRIMARY KEY (`cart_id`),
+  PRIMARY KEY (`id`),
   FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (`item_id`) REFERENCES `items`(`item_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY (`item_id`) REFERENCES `items`(`id`) ON DELETE CASCADE ON UPDATE CASCADE
 )
