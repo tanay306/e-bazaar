@@ -3,6 +3,7 @@ from flask_mysqldb import MySQL
 import os
 from passlib.hash import sha256_crypt
 from functools import wraps
+import json
 from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
@@ -15,34 +16,13 @@ mysql = MySQL(app)
 @app.route('/register', methods=['POST','GET'])
 @cross_origin(origin='*',headers=['Content-Type','Authorization'])
 def register():
-    cur = mysql.connection.cursor()
-    username = request.get_json()['username']
-    full_name = request.get_json()['full_name']
-    email = request.get_json()['email']
-    address = request.get_json()['address']
-    area = request.get_json()['area']
-    city_with_pincode = request.get_json()['city_with_pincode']
-    state_name = request.get_json()['address']
-    mobile_number = request.get_json()['mobile_number']
-    password = sha256_crypt.encrypt(request.get_json()['password']).decode('utf-8')
-	
-    cur.execute("INSERT INTO users(username,full_name,email,address,area,city_with_pincode,state_name,mobile_number,password) VALUES( %s, %s, %s, %s)",
-                        (username,full_name,email,address,area,city_with_pincode,state_name,mobile_number,password))
-    mysql.connection.commit()
-	
-    result = {
-		'username' : username,
-		'full_name' : full_name,
-		'email' : email,
-        'address' : address,
-        'area' : area,
-        'city_with_pincode' : city_with_pincode,
-        'state_name' : state_name,
-        'mobile_number' : mobile_number,
-		'password' : password,
-	}
-    cur.close()
-    return jsonify({'result' : result})
+    if request.method == 'POST':
+        username = request.get_json()['username']
+        full_name = request.get_json()['full_name']
+        email = request.get_json()['email']
+        address = request.get_json()['address']
+        mobile_number = request.get_json()['mobile_number']
+        password = sha256_crypt.encrypt(str(request.get_json()['password']))
 
         cur = mysql.connection.cursor()
         result = cur.execute("SELECT * FROM users WHERE email=%s or mobile_number=%s", ([email], [mobile_number]))
@@ -59,7 +39,6 @@ def register():
             return jsonify({'message' : "You have successfully signed up!!!"})
         cur.close()
 	
-# may not work due to session #
 @app.route('/login', methods=['POST'])
 def login():
     if request.method == 'POST':
@@ -79,13 +58,7 @@ def login():
                 session['username'] = username
                 session['role'] = role
                 session['userID'] = userID 
-                results = { 
-                            'session['logged_in']' : session['logged_in'],
-                            'session['username']' : session['username'],
-                            'session['role']' : session['role'],
-                            'session['userID']' : session['userID']
-                          }
-                return jsonify({'result' : result})
+                return jsonify({'message' : "Succesfully Logged In!!!"})
             else:
                 return jsonify({'message' : "Incorrect password!!!"})
 
@@ -124,7 +97,7 @@ def logout():
 @is_logged_in
 @is_admin
 def add_items():
-    if request.method = 'POST':
+    if request.method == 'POST':
         title = request.get_json()['title']
         description = request.get_json()['description']
         price = request.get_json()['price']
@@ -135,7 +108,7 @@ def add_items():
         type_item = request.get_json()['type']
         delivery_in_days = request.get_json()['delivery_in_days']
         cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO courseware(user_id, title, description, price, disc_price, size, colour, category, type, delivery_in_days) VALUES(%s, %s, %s, %s, %s, %s)",
+        cur.execute("INSERT INTO items(user_id, title, description, price, disc_price, size, colour, category, type, delivery_in_days) VALUES(%s, %s, %s, %s, %s, %s)",
                     (session['userID'], title, description, price, disc_price, size, colour, category, type_item, delivery_in_days))
         mysql.connection.commit()
         cur.close()
@@ -148,8 +121,8 @@ def admin_dashboard():
     cur = mysql.connection.cursor()
     cur.execute("SELECT * FROM items WHERE user_id=%s", session['userID'])
     results = cur.fetchall()
-    cur.fetchall()
-    return jsonify({'results' : results})
+    if results>0:
+        return jsonify(results)
     cur.close()
 
 @app.route('/clothing', methods=['GET'])
@@ -158,7 +131,7 @@ def clothing():
     result = cur.execute("SELECT * FROM items WHERE category=%s", ("Clothing"))
     if result > 0:
         clothes = cur.fetchall()
-        return jsonify({'clothes' : clothes})
+        return jsonify(clothes)
     else:
         return jsonify({'message' : "No Items found in this category!!"})
     cur.close()
@@ -169,7 +142,7 @@ def electronics():
     result = cur.execute("SELECT * FROM items WHERE category=%s", ("Electronics"))
     if result > 0:
         electronics = cur.fetchall()
-        return jsonify({'electronics' : electronics})
+        return jsonify(electronics)
     else:
         return jsonify({'message' : "No Items found in this category!!"})
     cur.close()
@@ -180,7 +153,7 @@ def formal():
     result = cur.execute("SELECT * FROM items WHERE category=%s and type=%s", ("Clothing","formal"))
     if result > 0:
         formals = cur.fetchall()
-        return jsonify({'formals' : formals})
+        return jsonify(formals)
     else:
         return jsonify({'message' : "No items found!!"})
     cur.close()
@@ -191,7 +164,7 @@ def casual():
     result = cur.execute("SELECT * FROM items WHERE category=%s and type=%s", ("Clothing","casual"))
     if result > 0:
         casuals = cur.fetchall()
-        return jsonify({'casuals' : casuals})
+        return jsonify(casuals)
     else:
         return jsonify({'message' : "No items found!!"})
     cur.close()
@@ -202,7 +175,7 @@ def semi_casual():
     result = cur.execute("SELECT * FROM items WHERE category=%s and type=%s", ("Clothing","semi_casual"))
     if result > 0:
         semi_casuals = cur.fetchall()
-        return jsonify({'semi_casuals' : semi_casuals})
+        return jsonify(semi_casuals)
     else:
         return jsonify({'message' : "No items found!!"})
     cur.close()
@@ -213,7 +186,7 @@ def party_wear():
     result = cur.execute("SELECT * FROM items WHERE category=%s and type=%s", ("Clothing","party_wear"))
     if result > 0:
         party_wears = cur.fetchall()
-        return jsonify({'party_wears' : formals})
+        return jsonify(party_wears)
     else:
         return jsonify({'message' : "No items found!!"})
     cur.close()
@@ -224,7 +197,7 @@ def mobile():
     result = cur.execute("SELECT * FROM items WHERE category=%s and type=%s", ("Electronics","mobile"))
     if result > 0:
         mobiles = cur.fetchall()
-        return jsonify({'mobiles' : mobiles})
+        return jsonify(mobiles)
     else:
         return jsonify({'message' : "No items found!!"})
     cur.close()
@@ -235,7 +208,7 @@ def laptop():
     result = cur.execute("SELECT * FROM items WHERE category=%s and type=%s", ("Electronics","laptop"))
     if result > 0:
         laptops = cur.fetchall()
-        return jsonify({'laptops' : laptops})
+        return jsonify(laptops)
     else:
         return jsonify({'message' : "No items found!!"})
     cur.close()
@@ -245,8 +218,8 @@ def accessory():
     cur = mysql.connection.cursor()
     result = cur.execute("SELECT * FROM items WHERE category=%s and type=%s", ("Electronics","accessory"))
     if result > 0:
-        accessorys = cur.fetchall()
-        return jsonify({'accessorys' : accessorys})
+        accessories = cur.fetchall()
+        return jsonify(accessories)
     else:
         return jsonify({'message' : "No items found!!"})
     cur.close()
@@ -257,7 +230,7 @@ def household():
     result = cur.execute("SELECT * FROM items WHERE category=%s and type=%s", ("Electronics","household"))
     if result > 0:
         households = cur.fetchall()
-        return jsonify({'households' : households})
+        return jsonify(households)
     else:
         return jsonify({'message' : "No items found!!"})
     cur.close()
@@ -265,9 +238,12 @@ def household():
 @app.route('/home', methods=['GET'])
 def home():
     cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM items WHERE id IN (%s,%s,%s,%s,%s);", (1,3,4,5,7))
-    deals = cur.fetchall()
-    return jsonify({'deals' : deals})
+    result = cur.execute("SELECT * FROM items WHERE id IN (%s,%s,%s,%s,%s);", (1,2,3,4,5))
+    if result > 0:
+        deals = cur.fetchall()
+        return jsonify(deals)
+    else:
+        return jsonify({'message' : "No Deals Found"})
     cur.close()
 
 # may not work #
@@ -281,10 +257,9 @@ def add_cart(id):
     cur.close()
     return jsonify({'message' : "Item added to cart"})
 
-# may not work #
-@app.route('/dashboard', methods=['GET'])
+@app.route('/cart', methods=['GET'])
 @is_logged_in
-def dashboard():
+def cart():
     cur = mysql.connection.cursor()
     result = cur.execute("""SELECT
                             cart.id,
@@ -308,7 +283,8 @@ def dashboard():
         return jsonify({'message' : "No Item added to the cart"})
     cur.close()
 
-# may not work #
+
+"""
 @app.route('/bill', methods=['GET'])
 @is_logged_in
 def bill():
@@ -319,6 +295,7 @@ def bill():
     else:
         return jsonify({'message' : "No Item added to the cart"})
     cur.close()
+"""
 
 # may not work #
 @app.route('/delete_cart/<string:id>', methods=['POST'])
