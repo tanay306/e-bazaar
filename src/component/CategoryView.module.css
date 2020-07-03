@@ -8,7 +8,7 @@
 }
 
 :global(.rstm-tree-item) {
-    display: inline-flex;
+    display: flex;
 }
 
 .CategoryView {
