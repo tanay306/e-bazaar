@@ -13,11 +13,19 @@ CREATE TABLE `users`
   `mobile_number` varchar
 (100) DEFAULT NULL,
   `address` varchar
+(255) DEFAULT NULL,
+  `area` varchar
+(100) DEFAULT NULL,
+  `city_with_pincode` varchar
+(100) DEFAULT NULL,
+  `state_name` varchar
 (100) DEFAULT NULL,
   `password` varchar
 (100) DEFAULT NULL,
   `role` varchar
 (20) DEFAULT 'customer',
+  `coins` varchar
+(20) DEFAULT 50,
   PRIMARY KEY
 (`id`)
 )
@@ -44,6 +52,7 @@ CREATE TABLE `items`
 (50) DEFAULT NULL,
   `delivery_in_days` varchar
 (20) DEFAULT NULL,
+  `img` LONGBLOB DEFAULT NULL,
   PRIMARY KEY
 (`id`),
   KEY `user_id`

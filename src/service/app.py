@@ -123,6 +123,7 @@ def add_items():
         requestdata=json.loads(request.data)
         title = requestdata['title']
         description = requestdata['description']
+        img = requestdata['description']
         price = requestdata['price']
         disc_price = requestdata['disc_price']
         size = requestdata['size']
@@ -131,8 +132,8 @@ def add_items():
         type_item = requestdata['type']
         delivery_in_days = requestdata['delivery_in_days']
         cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO items(user_id, title, description, price, disc_price, size, colour, category, type, delivery_in_days) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-                    (session['userID'], title, description, price, disc_price, size, colour, category, type_item, delivery_in_days))
+        cur.execute("INSERT INTO items(user_id, title, description, img, price, disc_price, size, colour, category, type, delivery_in_days) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                    (session['userID'], title, description, img, price, disc_price, size, colour, category, type_item, delivery_in_days))
         mysql.connection.commit()
         cur.close()
         return jsonify({'message' : "Item Added"})
@@ -154,6 +155,7 @@ def edit_items(id):
         requestdata=json.loads(request.data)
         title = requestdata['title']
         description = requestdata['description']
+        img = requestdata['description']
         price = requestdata['price']
         disc_price = requestdata['disc_price']
         size = requestdata['size']
@@ -162,8 +164,8 @@ def edit_items(id):
         type_item = requestdata['type']
         delivery_in_days = requestdata['delivery_in_days']
         cur = mysql.connection.cursor()
-        cur.execute("UPDATE items SET title = %s, description = %s, price = %s, disc_price = %s, size = %s, colour = %s, category = %s, type  = %s, delivery_in_days = %s WHERE id=%s",
-                    (title, description, price, disc_price, size, colour, category, type_item, delivery_in_days, [id]))
+        cur.execute("UPDATE items SET title = %s, description = %s, img = %s, price = %s, disc_price = %s, size = %s, colour = %s, category = %s, type  = %s, delivery_in_days = %s WHERE id=%s",
+                    (title, description, img, price, disc_price, size, colour, category, type_item, delivery_in_days, [id]))
         mysql.connection.commit()
         cur.close()
         return jsonify({'message' : "Item Edited"})
