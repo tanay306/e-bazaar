@@ -1,41 +1,59 @@
-import React from 'react';
-import TreeView from 'treeview-react-bootstrap';
+import React from "react";
+import TreeMenu from "react-simple-tree-menu";
+import Card from "react-bootstrap/Card";
+import styles from "./CategoryView.module.css";
 
-const CategoryView=()=>{
-    var tree = [
+const CategoryView = () => {
+  const treeData = [
+    {
+      key: "Apparels",
+      label: "Apparels",
+
+      nodes: [
         {
-          text: 'Apparel',
+          key: "Shirt",
+          label: "Shirt",
           nodes: [
             {
-              text: "T-shirt",
-              nodes: [
-                {
-                  text: "Grandchild 1"
-                },
-                {
-                  text: "Grandchild 2"
-                }
-              ]
+              key: "Formal",
+              label: "Formal",
             },
             {
-              text: "Child 2"
-            }
-          ]
+              key: "Casual",
+              label: "Casual",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      key: "Electronics",
+      label: "Electronics",
+
+      nodes: [
+        {
+          key: "Mobile",
+          label: "Mobile",
         },
         {
-          text: "Parent 2"
+          key: "Television",
+          label: "Television",
+          // you can remove the nodes property or leave it as an empty array
         },
         {
-          text: "Parent 3"
+          key: "Refrigerator",
+          label: "Refrigerator",
+          // you can remove the nodes property or leave it as an empty array
         },
-        {
-          text: "Parent 4"
-        },
-        {
-          text: "Parent 5"
-        }
-      ];
-      return (<TreeView data={tree} selectable onClick={e=>console.log(e)} removable/>
-        );
-}
+      ],
+    },
+  ];
+  return (
+    <div className={styles.CategoryView}>
+      <Card style={{ width: "80%" }}>
+        <TreeMenu data={treeData} onClickItem={(e) => console.log(e)} />
+      </Card>
+    </div>
+  );
+};
 export default CategoryView;

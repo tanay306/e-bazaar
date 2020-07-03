@@ -13,7 +13,7 @@
     "react-bootstrap": "^1.0.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
-    "treeview-react-bootstrap": "^0.4.6"
+    "react-simple-tree-menu": "^1.1.17"
   },
   "scripts": {
     "start": "react-scripts start",
