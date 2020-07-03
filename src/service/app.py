@@ -2,13 +2,17 @@ from flask import Flask, jsonify, request, json, session
 from flask_mysqldb import MySQL
 from passlib.hash import sha256_crypt
 from functools import wraps
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
+cors = CORS(app, resources={r"/register": {"origins": "http://127.0.0.1:5000"}})
+app.config['CORS_HEADERS'] = 'Content-Type'
 app.config.from_pyfile('config.py')
 
 mysql = MySQL(app)
 
 @app.route('/register', methods=['POST','GET'])
+@cross_origin(origin='*',headers=['Content-Type','Authorization'])
 def register():
     cur = mysql.connection.cursor()
     username = request.get_json()['username']
@@ -38,7 +42,6 @@ def register():
 	}
     cur.close()
     return jsonify({'result' : result})
-	
 
 @app.route('/login', methods=['POST'])
 def login():

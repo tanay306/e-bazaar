@@ -1,48 +1,26 @@
-import React from 'react';
-import {Tabs,Tab, Button,Modal,InputGroup,FormControl } from 'react-bootstrap';
+import React ,{useState}from 'react';
+import {Tabs,Tab, Button,Modal,InputGroup,FormControl,Form } from 'react-bootstrap';
 const SignIn = () =>{
+const [username,setusername]=useState(null);
+const [password,setPassword]=useState(null);
+console.log(username,password)
     return(
-        <div>
-            {/* user name */}
-<InputGroup className="mb-3">
-    <InputGroup.Prepend>
-      <InputGroup.Text id="basic-addon1">UserName</InputGroup.Text>
-    </InputGroup.Prepend>
-    <FormControl
-      placeholder="Username"
-      aria-label="Username"
-      aria-describedby="basic-addon1"
-    />
-  </InputGroup> 
-{/* email*/}
-  <InputGroup className="mb-3">
-    <InputGroup.Prepend>
-      <InputGroup.Text>Email</InputGroup.Text>
-    </InputGroup.Prepend>
-    <FormControl aria-label="Amount (to the nearest dollar)" />
-    <InputGroup.Append>
-      <InputGroup.Text>@example.com</InputGroup.Text>
-    </InputGroup.Append>
-  </InputGroup>
-
-  <InputGroup>
-    <InputGroup.Prepend>
-      <InputGroup.Text>Password</InputGroup.Text>
-    </InputGroup.Prepend>
+      <Form>
+            <Form.Group controlId="usernameGroup">
+          <Form.Label>Username</Form.Label>
+          <Form.Control onChange={e => setusername((e.target.value))} type="text" placeholder="Enter Username" />
+        </Form.Group>
     
-  </InputGroup>
-  <InputGroup>
-    <InputGroup.Prepend>
-      <InputGroup.Text>Confirm Password</InputGroup.Text>
-    </InputGroup.Prepend>
-    
-  </InputGroup>
-                          
-
-              
-            
-
-            </div>
+      <Form.Group controlId="formBasicPassword">
+        <Form.Label>Password</Form.Label>
+        <Form.Control type="password" 
+        placeholder="Password" 
+        onChange={e => setPassword((e.target.value))}/>
+      </Form.Group>
+      <Button variant="primary" type="submit">
+        Submit
+      </Button>
+    </Form>       
     );
     }  
             
