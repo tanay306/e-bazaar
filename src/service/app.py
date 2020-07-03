@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request, json, session
 from flask_mysqldb import MySQL
 from passlib.hash import sha256_crypt
 from functools import wraps
+import json
 from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
