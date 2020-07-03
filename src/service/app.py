@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request, json, session
+from flask_session import Session
 from flask_mysqldb import MySQL
 from passlib.hash import sha256_crypt
 from functools import wraps
@@ -6,15 +7,24 @@ import json
 from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
+SECRET_KEY ='e-bazaar'
+SESSION_TYPE = 'filesystem'
 cors = CORS(app, resources={r"/register": {"origins": "http://127.0.0.1:5000"}})
 app.config['CORS_HEADERS'] = 'Content-Type'
 app.config.from_pyfile('config.py')
+Session(app)
+
+sess=Session()
+app.secret_key = SECRET_KEY
+app.config['SESSION_TYPE'] = 'filesystem'
+sess.init_app(app)
 
 mysql = MySQL(app)
 
 @app.route('/register', methods=['POST','GET'])
 @cross_origin(origin='*',headers=['Content-Type','Authorization'])
 def register():
+    print(session)
     cur = mysql.connection.cursor()
     requestdata=json.loads(request.data)
     print(requestdata)
@@ -50,8 +60,9 @@ def register():
 @app.route('/login', methods=['POST'])
 def login():
     cur = mysql.connection.cursor()
-    username = request.get_json()['username']
-    password = request.get_json()['password']
+    requestdata=json.loads(request.data)
+    username = requestdata['username']
+    password = requestdata['password']
 	
     result = cur.execute("SELECT * FROM users WHERE username = %s", [username])
     if result > 0:
@@ -59,21 +70,22 @@ def login():
         userID = data['id']
         role = data['role']
 
-        if sha256_crypt.verify(data['password'], password):
+        if data['password'] == password:
             session['logged_in'] = True
             session['username'] = username
             session['role'] = role
             session['userID'] = userID
-            return True
+           
+            # return jsonify({ 'response': 'Login successful' })
         else:
             error = 'Invalid Password'
-            return False
+            return jsonify({ 'error': error })
         cur.close()
 
     else:
         error = 'Username not found'
         return False
-        
+
     returning = {
 		'username' : session['username']
 	}
@@ -82,3 +94,4 @@ def login():
 
 if __name__ == '__main__':
     app.run(debug=True)
+

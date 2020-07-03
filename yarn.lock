@@ -10165,6 +10165,11 @@ tr46@^1.0.1:
   dependencies:
     punycode "^2.1.0"
 
+treeview-react-bootstrap@^0.4.6:
+  version "0.4.6"
+  resolved "https://registry.yarnpkg.com/treeview-react-bootstrap/-/treeview-react-bootstrap-0.4.6.tgz#3f7780a7bf10a524b75c4d552b10dd20a3c51776"
+  integrity sha1-P3eAp78QpSS3XE1VKxDdIKPFF3Y=
+
 ts-pnp@1.1.6, ts-pnp@^1.1.6:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/ts-pnp/-/ts-pnp-1.1.6.tgz#389a24396d425a0d3162e96d2b4638900fdc289a"

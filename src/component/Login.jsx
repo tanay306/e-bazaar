@@ -9,6 +9,7 @@ import {
 } from "react-bootstrap";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
+import CategoryView from "./CategoryView";
 const Login = () => {
   const [show, setShow] = useState(false);
 
@@ -17,6 +18,7 @@ const Login = () => {
   const [key, setKey] = useState("Sign in");
   return (
     <>
+    <CategoryView />
       <Button   onClick={handleShow}>Login</Button>
 
       <Modal show={show} onHide={handleClose}>

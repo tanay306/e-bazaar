@@ -5,13 +5,13 @@ const AllProduct = ()=>{
       <Container>
   
   <Row>
-    <Col sm> <Card style={{ width: '25%', height: '25%' }}>
+    <Col sm> <Card style={{ width: '100%', height: '100%' }}>
       <Card.Img variant="top" src="https://images-na.ssl-images-amazon.com/images/I/41%2BfXlXMPyL.jpg" alt="Aloevera Gel"/>
       <Card.Body>
         <Card.Title>Card Title</Card.Title>
         <Card.Text style={{backgroundColor:'black'}}>
          <ul>
-           <li>Category</li>
+           <li>Category-Electronic</li>
            <li>Price</li>
          </ul>
         </Card.Text >
@@ -19,13 +19,13 @@ const AllProduct = ()=>{
       </Card.Body>
     </Card>
 </Col>
-    <Col sm> <Card style={{ width: '25%', height: '25%' }}>
+    <Col sm> <Card style={{ width: '100%', height: '100%' }}>
       <Card.Img variant="top" src="https://images-na.ssl-images-amazon.com/images/I/41%2BfXlXMPyL.jpg" alt="Aloevera Gel"/>
       <Card.Body>
         <Card.Title>Card Title</Card.Title>
         <Card.Text style={{backgroundColor:'black'}}>
          <ul>
-           <li>Category</li>
+           <li>Category-Clothing</li>
            <li>Price</li>
          </ul>
         </Card.Text >
@@ -33,13 +33,13 @@ const AllProduct = ()=>{
       </Card.Body>
     </Card>
 </Col>
-    <Col sm> <Card style={{ width: '25%', height: '25%' }}>
+    <Col sm> <Card style={{ width: '100%', height: '100%' }}>
       <Card.Img variant="top" src="https://images-na.ssl-images-amazon.com/images/I/41%2BfXlXMPyL.jpg" alt="Aloevera Gel"/>
       <Card.Body>
         <Card.Title>Card Title</Card.Title>
         <Card.Text style={{backgroundColor:'black'}}>
          <ul>
-           <li>Category</li>
+           <li>Category-Home</li>
            <li>Price</li>
          </ul>
         </Card.Text >
