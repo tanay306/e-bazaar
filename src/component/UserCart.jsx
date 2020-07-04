@@ -101,7 +101,7 @@ const UserCart = () => {
                     </div>
                     <div className={`${styles.extra} text-center text-dark`}><h4>Number Of Items-<strong>{count}</strong></h4></div>
                     <div className={`${styles.extra} text-center text-dark`}><h4>Total Bill Amount-<strong>Rs {total}</strong></h4></div>
-                    {/* <div className='row'><h4>Congratulations You Saved-Rs {price}!</h4></div> */}
+                    <div className={`${styles.extra} text-center text-dark`}><h4>Your coin balance-<strong>Rs {user_coins}</strong></h4></div>
 
                                         <div><Button variant='primary' onClick={buyNow} >Proceed to Buy</Button></div>
                                         <Modal show={show} onHide={handleClose} animation={false}>
