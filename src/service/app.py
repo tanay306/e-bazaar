@@ -388,7 +388,8 @@ def orders():
 @is_logged_in
 def delete_cart(id):
     cur = mysql.connection.cursor()
-    cur.execute("DELETE FROM cart WHERE id = %s", [id])
+    print("DELETE FROM cart WHERE id = %s AND user_id=%s", [id,session['user_id']])
+    cur.execute("DELETE FROM cart WHERE id = %s AND user_id=%s", [id,session['user_id']])
     mysql.connection.commit()
     cur.close()
     return jsonify({'message' : "Item Deleted From Cart"})
