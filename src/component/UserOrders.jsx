@@ -4,7 +4,7 @@ import {Table,Dropdown, Button,Modal,ProgressBar} from "react-bootstrap";
 import Tracking from './Tracking';
 import styles from './UserCart.module.css';
 
-const UserCart = () => {
+const UserOrders = () => {
     const [cart, setCart] = useState([]);
     const [count, setCount]=useState(0);
     const [total, setTotal]= useState(0);
@@ -18,7 +18,7 @@ const UserCart = () => {
     // const [discountprice, setdiscountPrice]= useState(0);
 
     useEffect(()=>{
-        fetch('/cart',{
+        fetch('/orders',{
           method: 'GET',
           headers: {
             'Content-Type': 'application-json'
@@ -27,7 +27,7 @@ const UserCart = () => {
       .then(res=>res.json())
       .then((res)=> {
         console.log(res);
-        setCart(filter(res.cart_items, function(o) { return o.ordered==='False'; }));
+        setCart(res.orders);
         setCount(res.count);
         setTotal(res.total);
         setUser_coins(res.user_coins);
@@ -70,16 +70,15 @@ const UserCart = () => {
         if (cart &&cart.length > 0 ){
             return (
                 <div className="container">
-                    <div className={`${styles.title} text-center`} ><h1><u>YOUR CART</u></h1></div>
+                    <div className={`${styles.title} text-center`} ><h1><u>YOUR ORDERS</u></h1></div>
                     <div className="row mb-4">
                         <div className="col-sm-12 grid-margin">
                                     <Table hover responsive size="sm" variant="dark">
                                         <thead>
                                             <tr>
-                                            <th>Product Name</th>
-                                            <th>Discounted Price</th>
-                                            <th>Price</th>
-                                            <th>Remove</th>
+                                            <th>Item Id</th>
+                                            <th>Cart Id</th>
+                                            <th>Status</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -87,10 +86,10 @@ const UserCart = () => {
                                              
                                                 return (
                                                     <tr>
-                                            <td>{cartItem.title}</td>
-                                            <td>{cartItem.disc_price}</td>
-                                            <td>{cartItem.price}</td>
-                                            <td><Button variant="danger" onClick={() => deleteFromCart(cartItem.id)}>Remove</Button></td>
+            
+                                            <td>{cartItem.item_id}</td>
+                                            <td>{cartItem.cart_id}</td>
+                                           <td style={{ margin: 'auto', width: '100px' }}><Tracking orderId={cartItem.id} status={Math.floor((Math.random() * 3) + 1)} /></td>
                                             </tr>
                                                 )
                                             })}
@@ -99,26 +98,14 @@ const UserCart = () => {
                                     </Table>
                         </div>
                     </div>
-                    <div className={`${styles.extra} text-center text-dark`}><h4>Number Of Items-<strong>{count}</strong></h4></div>
-                    <div className={`${styles.extra} text-center text-dark`}><h4>Total Bill Amount-<strong>Rs {total}</strong></h4></div>
-                    <div className={`${styles.extra} text-center text-dark`}><h4>Your coin balance-<strong>Rs {user_coins}</strong></h4></div>
-
-                                        <div><Button variant='primary' onClick={buyNow} >Proceed to Buy</Button></div>
-                                        <Modal show={show} onHide={handleClose} animation={false}>
-        <Modal.Header closeButton>
-        </Modal.Header>
-        <Modal.Body>
-        {user_coins>total?<div><p>Wohoo! Congratulations Your Order Has been placed</p>
-        <p>Kindly Go to MyOrder to track your order</p>
-        <ProgressBar animated now={progress}/></div>:<p>You Dont have sufficient coins</p>}
-        </Modal.Body>
-      </Modal>
-
+                   
+                                       
+                                    
                 </div>
                 
             )
         }
-    return <h6>Your cart is empty!</h6>
+    return <h6>Your haven't placed any orders yet!</h6>
 }
 
-export default UserCart;
+export default UserOrders;

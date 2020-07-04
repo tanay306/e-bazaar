@@ -362,11 +362,11 @@ def bill():
         return jsonify({'message' : "No Item added to the cart"})
     cur.close()
 
-@app.route('/order_status', methods=['GET'])
+@app.route('/order_status/<string:id>', methods=['GET'])
 @is_logged_in
-def order_status():
+def order_status(id):
     cur = mysql.connection.cursor()
-    result = cur.execute("SELECT id FROM orders WHERE user_id = %s",(session['userID']))
+    result = cur.execute("SELECT id FROM orders WHERE id = %s AND user_id = %s",(id, session['userID']))
     if result > 0:
         values = cur.fetchall()
         return jsonify({'values' : values})
