@@ -1,18 +1,27 @@
 import React from 'react';
-import { Navbar, Nav, FormControl, Button, Form } from 'react-bootstrap';
+import {Link } from 'react-router-dom';
+import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import Login from './Login';
+import UserProfile from './UserProfle';
 
 const NavbarComponent = () => {
+  const username = localStorage.getItem('username');
   return (<>
-    <Navbar bg="dark" variant="dark">
-      <Navbar.Brand href="#home">Navbar</Navbar.Brand>
+    <Navbar bg="dark" variant="dark" fixed="top">
+      <Navbar.Brand href="#home">e-bazaar</Navbar.Brand>
       <Nav className="mr-auto">
         <Nav.Link href="#home">Home</Nav.Link>
-        <Nav.Link href="#features">Features</Nav.Link>
-        <Nav.Link href="#pricing">Pricing</Nav.Link>
+        <Nav.Link href="#features">My Cart</Nav.Link>
+        {username ? 
+         <NavDropdown title={`Welcome ${username}`} id="basic-nav-dropdown">
+         <NavDropdown.Item href="/userProfile"><Link to="/userProfile">User Profile</Link></NavDropdown.Item>
+         <NavDropdown.Divider />
+         <NavDropdown.Item href="#action/3.4">Logout</NavDropdown.Item>
+       </NavDropdown> : <Login />   
+      }
       </Nav>
-     <Login />
     </Navbar>
+    <br />
   </>)
 };
 

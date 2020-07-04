@@ -3,6 +3,7 @@
 }
 .listGroupItem{
     color: rgb(7, 7, 7);
+    font-size: 12px;
 }
 .productImage {
     width: 50%;
@@ -13,4 +14,8 @@
 .sellerPriceSection {
     display: flex;
     justify-content: space-evenly;
+}
+
+.cardBody {
+    padding: 5%;
 }

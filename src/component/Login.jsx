@@ -1,53 +1,44 @@
-import React, { useState } from "react";
-import {
-  Tabs,
-  Tab,
-  Button,
-  Modal,
-  InputGroup,
-  FormControl,
-} from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Tabs, Tab, Button, Modal } from "react-bootstrap";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
-import CategoryView from "./CategoryView";
 const Login = () => {
+  useEffect(() => {
+    if (localStorage.getItem('username')) {
+      setIsLoggedIn(true);
+      setusername(localStorage.getItem('username'));
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, []);
   const [show, setShow] = useState(false);
-
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [username, setusername] = useState(null);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [key, setKey] = useState("Sign in");
   return (
     <>
-    <CategoryView />
-      <Button   onClick={handleShow}>Login</Button>
-
+      {isLoggedIn ? <h4 style={{ color: 'white' }}>{username}</h4> : <Button variant="light" onClick={handleShow}>Login</Button>}
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>
-            <Tabs
+        </Modal.Header>
+        <Modal.Body>
+          <div>
+        <Tabs
               defaultActiveKey="Sign in"
-              id="uncontrolled-tab-example"
+              id="loginTabs"
               onSelect={(k) => setKey(k)}
             >
               <Tab eventKey="Sign up" title="Sign up">
                 <SignUp />
               </Tab>
               <Tab eventKey="Sign in" title="Sign in">
-                <SignIn />
+                <SignIn handleClose={handleClose}/>
               </Tab>
             </Tabs>
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body></Modal.Body>
-
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
+            </div>
+        </Modal.Body>
       </Modal>
     </>
   );

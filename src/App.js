@@ -1,18 +1,26 @@
 import React from 'react';
+import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import './App.css';
-import Login from './component/Login';
 import NavbarComponent from './component/Navbar';
 import AllProduct from './component/AllProduct';
-function App() {
+import UserProfile from './component/UserProfle';
+import Login from './component/Login';
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
+    <Router>
+      
+    <div className="App" style={{ overflowX: 'hidden' }}>
         <NavbarComponent />
-        <AllProduct />
-      </header>
+        <br /><br />
+        <Switch>
+      <Route path="/all-products" render={() => <Login />} />
+      <Route path="/product/:productId" render={() => <AllProduct />} />
+      <Route path="/userProfile" render={() => <UserProfile />} />
+      <Route path="/" render={() => <AllProduct />} />
+      </Switch>
     </div>
+    </Router>
   );
 }
 
 export default App;
-
