@@ -329,9 +329,9 @@ def cart():
         return jsonify({'message' : "No Item added to the cart"})
     cur.close()
 
-@app.route('/bill', methods=['GET'])
+@app.route('/bill/<string:id>', methods=['GET'])
 @is_logged_in
-def bill():
+def bill(id):
     total = 0
     count = 0
     cur = mysql.connection.cursor()
@@ -348,15 +348,16 @@ def bill():
                             FROM cart
                             INNER JOIN items on items.id = cart.item_id
                             INNER JOIN users on users.id = cart.user_id
-                            WHERE users.id = {session['userID']}
+                            WHERE users.id = {session['user_id']} AND cart.id = {id}
                             """)
     if result>0:
         cart_items = cur.fetchall()
+        count=len(cart_items)
         total = 0
+        print(cart_items)
         for cart_item in cart_items:
             print(cart_item['disc_price'])
-            total = total + cart_item['disc_price']
-            count = count + cart_item
+            total = total + float(cart_item['disc_price'])
         return jsonify({'cart_items' : cart_items, 'total' : total, 'count' : count})
     else:
         return jsonify({'message' : "No Item added to the cart"})
