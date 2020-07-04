@@ -32,34 +32,30 @@ if (userDetails) {
             <div className="row about-list"> 
               <div className="col-md-6">
                 <div className="media">
-                  <label>Username</label>
-  <p>{userDetails.username}</p>
+                  <h6 className="text-dark info">Username:</h6>
+                  <h6 className="text-dark info"> {userDetails.username}</h6>
                 </div>
                 <div className="media">
-                  <label>Email</label>
-                  <p>{userDetails.email}</p>
+                  <h6 className="text-dark info">Email:</h6>
+                  <h6 className="text-dark info"> {userDetails.email}</h6>
                 </div>
                 <div className="media">
-                  <label>Address</label>
-                  <p>{userDetails.address}</p>
-                </div>
-                <div className="media">
-                  <label>Area</label>
-                  <p>{userDetails.area}</p>
+                  <h6 className="text-dark info">Address:</h6>
+                  <h6 className="text-dark not_info"> {userDetails.address}</h6>
                 </div>
               </div>
               <div className="col-md-6">
                 <div className="media">
-                  <label>Pin Code</label>
-                  <p>{userDetails.city_with_pincode}</p>
+                  <h6 className="text-dark info">Area:</h6>
+                  <h6 className="text-dark info"> {userDetails.area}</h6>
                 </div>
                 <div className="media">
-                  <label>State</label>
-                  <p>{userDetails.state_name}</p>
+                  <h6 className="text-dark info">State:</h6>
+                  <h6 className="text-dark info"> {userDetails.state_name}</h6>
                 </div>
                 <div className="media">
-                  <label>Mobile Number</label>
-                  <p>{userDetails.mobile_number}</p>
+                  <h6 className="text-dark info">Number:</h6>
+                  <h6 className="text-dark info"> {userDetails.mobile_number}</h6>
                 </div>
               </div>
             </div>
