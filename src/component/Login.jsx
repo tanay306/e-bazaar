@@ -20,7 +20,7 @@ const Login = () => {
   const [key, setKey] = useState("Sign in");
   return (
     <>
-      {isLoggedIn ? <h4 style={{ color: 'white' }}>{username}</h4> : <Button variant="light" onClick={handleShow}>Login</Button>}
+      {isLoggedIn ? <h4 style={{ color: 'white' }}>{username}</h4> : <a className="text-white mt-2 ml-2" onClick={handleShow}><h4>Login</h4></a>}
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
         </Modal.Header>
