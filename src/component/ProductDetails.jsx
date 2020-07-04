@@ -56,6 +56,18 @@ class ProductDetails extends Component{
 
     }
 
+    addToCart(id) {
+        fetch(`/add_cart/${id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application-json'
+            }
+        })
+        .then(res => res.json())
+        .then(data => console.log(data))
+        .catch(err => console.log(err))
+    }
+
     render() {
         const { product } = this.state;
         console.log(this.props)
@@ -79,7 +91,7 @@ class ProductDetails extends Component{
                     <h3 className={styles.paratextContent}>Name-{title}</h3>
                         <p className={styles.paratextContent}>Description-{description}</p>
                        <p className={styles.paratextContent}> Price-{price}</p>
-                  <div><Button className={styles.buttons}variant="primary" type="submit">
+                  <div><Button className={styles.buttons}variant="primary" onClick={() => this.addToCart(product.id)}>
                       Add to Cart
                     </Button> 
                   </div>   
