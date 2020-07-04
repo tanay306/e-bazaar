@@ -167,7 +167,6 @@ def add_items():
         requestdata=json.loads(request.data)
         title = requestdata['title']
         description = requestdata['description']
-        img = requestdata['description']
         price = requestdata['price']
         disc_price = requestdata['disc_price']
         size = requestdata['size']
@@ -175,9 +174,11 @@ def add_items():
         category = requestdata['category']
         type_item = requestdata['type']
         delivery_in_days = requestdata['delivery_in_days']
+        seller = requestdata['seller']
+        img = requestdata['img']
         cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO items(user_id, title, description, img, price, disc_price, size, colour, category, type, delivery_in_days) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-                    (session['userID'], title, description, img, price, disc_price, size, colour, category, type_item, delivery_in_days))
+        cur.execute("INSERT INTO items(user_id, title, description, price, disc_price, size, colour, category, type, delivery_in_days, seller, img) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                    (session['userID'], title, description, price, disc_price, size, colour, category, type_item, delivery_in_days, seller, img))
         mysql.connection.commit()
         cur.close()
         return jsonify({'message' : "Item Added"})
@@ -191,7 +192,7 @@ def delete_item(title):
     cur.close()
     return jsonify({'message' : "Item Deleted"})
 
-@app.route('/edit_items<string:id>', methods=['GET','POST'])
+@app.route('/edit_items/<string:id>', methods=['GET','POST'])
 @is_logged_in
 @is_admin
 def edit_items(id):
@@ -276,7 +277,7 @@ def cart():
     total = 0
     count = 0
     cur = mysql.connection.cursor()
-    result = cur.execute("""SELECT
+    result = cur.execute(f"""SELECT
                             cart.id,
                             cart.ordered,
                             items.id,
@@ -307,7 +308,7 @@ def bill():
     total = 0
     count = 0
     cur = mysql.connection.cursor()
-    result = cur.execute("""SELECT
+    result = cur.execute(f"""SELECT
                             cart.id,
                             cart.ordered,
                             items.id,
