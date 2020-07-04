@@ -16,3 +16,21 @@
     break-inside: avoid-column;         /* IE 11 */
     display: inline-block; 
 }
+
+@media only screen and (max-width: 400px) {
+    .productCards {
+        column-count: 1;
+    }
+  }
+
+  @media only screen and (min-width: 400px) and (max-width: 675px) {
+    .productCards {
+        column-count: 2;
+    }
+  }
+
+  @media only screen and (min-width: 675px) and (max-width: 1200px) {
+    .productCards {
+        column-count: 3;
+    }
+  }
