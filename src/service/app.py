@@ -307,7 +307,7 @@ def cart():
                             FROM cart
                             INNER JOIN items on items.id = cart.item_id
                             INNER JOIN users on users.id = cart.user_id
-                            WHERE users.id = {session['user_id']}
+                            WHERE users.id = {session['user_id']} AND cart.ordered='False'
                             """)
     if result>0:
         cart_items = cur.fetchall()
