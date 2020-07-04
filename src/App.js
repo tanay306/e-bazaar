@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import './App.css';
 import NavbarComponent from './component/Navbar';
 import AllProduct from './component/AllProduct';
+import ProductDetails from "./component/ProductDetails";
 import UserProfile from './component/UserProfle';
 import Login from './component/Login';
 const App = () => {
@@ -12,6 +13,8 @@ const App = () => {
     <div className="App" style={{ overflowX: 'hidden' }}>
         <NavbarComponent />
         <br /><br />
+        {/* <ProductDetails  category='Electronics'price='$786'seller='Apple Inc.'name='An iphone'description='Camera-12mpx */}
+        {/* RAM-64GB'/> */}
         <Switch>
       <Route path="/all-products" render={() => <Login />} />
       <Route path="/product/:productId" render={() => <AllProduct />} />

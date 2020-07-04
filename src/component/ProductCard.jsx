@@ -1,11 +1,12 @@
 import React from 'react'; 
 import { Button } from 'react-bootstrap';
 import styles from './ProductCard.module.css';
+import ProductDetails from './ProductDetails';
 
 const ProductCard = ({image,name,seller,price,description}) => {
       return (
   <>
-        <div className="card" style={{width: '25%'}}>
+        <div className="card" style={{width: '100%'}}>
         
           <img src="https://images-na.ssl-images-amazon.com/images/I/41%2BfXlXMPyL.jpg" className={`${styles.productImage} card-img-top`} alt="..." />
           
@@ -18,7 +19,7 @@ const ProductCard = ({image,name,seller,price,description}) => {
             <p className={`${styles.listGroupItem} list-group-item`}>Seller: {seller}</p>
             </div>
           <div className={`${styles.cardBody} card-body`}>
-            <Button variant="outline-primary" size="sm">See Product Details</Button>
+            <Button variant="outline-primary" size="sm" onClick={ProductDetails}>See Product Details</Button>
           </div>
         </div></>
       );
