@@ -105,7 +105,7 @@ const UserOrders = () => {
                 
             )
         }
-    return <h6>Your cart is empty!</h6>
+    return <h6>Your haven't placed any orders yet!</h6>
 }
 
 export default UserOrders;
