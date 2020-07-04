@@ -20,6 +20,7 @@ const handleSubmit=(e)=>{
 .then((res)=> {
   console.log(res);
   if (res.returning.username) {
+    localStorage.setItem('userId', res.returning.userId);
     localStorage.setItem('username', res.returning.username);
     handleClose();
     window.location.reload();

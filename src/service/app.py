@@ -24,7 +24,6 @@ mysql = MySQL(app)
 @app.route('/register', methods=['POST','GET'])
 @cross_origin(origin='*',headers=['Content-Type','Authorization'])
 def register():
-    print(session)
     cur = mysql.connection.cursor()
     requestdata=json.loads(request.data)
     print(requestdata)
@@ -74,7 +73,7 @@ def login():
             session['logged_in'] = True
             session['username'] = username
             session['role'] = role
-            session['userID'] = userID
+            session['user_id'] = userID
            
             # return jsonify({ 'response': 'Login successful' })
         else:
@@ -84,10 +83,11 @@ def login():
 
     else:
         error = 'Username not found'
-        return False
+        return jsonify({ 'error': error })
 
     returning = {
-		'username' : session['username']
+        'userId': session['user_id'],
+		'username': session['username']
 	}
     return jsonify({'returning' : returning})
 
@@ -114,6 +114,50 @@ def is_admin(f):
 def logout():
     session.clear()
     return jsonify({'message' : "You are logged out"})
+
+@app.route('/user_details/<string:userId>', methods=['GET'])
+@is_logged_in
+def user_details(userId):
+    print(userId)
+    cur = mysql.connection.cursor()
+    result = cur.execute("SELECT * FROM users WHERE id=%s", userId)
+    if result > 0:
+        user_details = cur.fetchall()[0]
+        return jsonify({'user_details' : user_details})
+    else:
+        return jsonify({'message' : "No User details Found!!!"})
+    cur.close()
+
+@app.route('/update_user', methods=['POST', 'PUT'])
+@is_logged_in
+def update_user():
+    cur = mysql.connection.cursor()
+    requestdata=json.loads(request.data)
+    username = requestdata['username']
+    full_name = requestdata['full_name']
+    email = requestdata['email']
+    address = requestdata['address']
+    area = requestdata['area']
+    city_with_pincode = requestdata['city_with_pincode']
+    state_name = requestdata['state']
+    mobile_number = requestdata['mobile_number']
+    password = requestdata['password']
+
+    cur.execute("UPDATE users SET username = %s, full_name = %s, email = %s, address = %s, area = %s, city_with_pincode = %s, state_name = %s, mobile_number = %s, password=%s WHERE id=%s",(username,full_name,email,address,area,city_with_pincode,state_name,mobile_number,password,session['userID']))
+    mysql.connection.commit()
+    result = {
+		'username' : username,
+		'full_name' : full_name,
+		'email' : email,
+        'address' : address,
+        'area' : area,
+        'city_with_pincode' : city_with_pincode,
+        'state_name' : state_name,
+        'mobile_number' : mobile_number,
+		'password' : password,
+	}
+    cur.close()
+    return jsonify({'result' : result})
 
 @app.route('/add_items', methods=['GET','POST'])
 @is_logged_in
@@ -170,10 +214,32 @@ def edit_items(id):
         cur.close()
         return jsonify({'message' : "Item Edited"})
 
-@app.route('/admin_dashboard', methods=['GET'])
+@app.route('/all_products', methods=['GET'])
+def all_products():
+    cur = mysql.connection.cursor()
+    result = cur.execute("SELECT * FROM items")
+    if result > 0:
+        products = cur.fetchall()
+        return jsonify({'products' : products})
+    else:
+        return jsonify({'message' : "No Items Found!!!"})
+    cur.close()
+
+@app.route('/products/<string:title>', methods=['GET'])
+def products(title):
+    cur = mysql.connection.cursor()
+    result = cur.execute("SELECT * FROM items WHERE title = %s", [title])
+    if result > 0:
+        details = cur.fetchall()
+        return jsonify({'details' : details})
+    else:
+        return jsonify({'message' : "No Items Found!!!"})
+    cur.close()
+
+@app.route('/admin_products', methods=['GET'])
 @is_logged_in
 @is_admin
-def admin_dashboard():
+def admin_products():
     cur = mysql.connection.cursor()
     result = cur.execute("SELECT * FROM items WHERE user_id=%s", session['userID'])
     if result > 0:
@@ -186,7 +252,7 @@ def admin_dashboard():
 @app.route('/category/<string:category_name>', methods=['GET'])
 def category(category_name):
     cur = mysql.connection.cursor()
-    result = cur.execute("SELECT * FROM items WHERE category=%s", ("category_name"))
+    result = cur.execute("SELECT * FROM items WHERE category=%s",[category_name])
     if result > 0:
         values = cur.fetchall()
         return jsonify({'values' : values})
@@ -265,6 +331,34 @@ def bill():
     else:
         return jsonify({'message' : "No Item added to the cart"})
     cur.close()
+
+@app.route('/add_orders', methods=['POST','PUT'])
+@is_logged_in
+def add_orders():
+    cur = mysql.connection.cursor()
+    data = cur.execute("UPDATE cart SET ordered=%s WHERE user_id=%s",("True",session['userID']))
+    if data:
+        result = cur.execute("INSERT INTO orders SELECT user_id FROM users WHERE ordered=%s AND user_id=%s",("True",session['userID']))
+        if result > 0:
+            orders = cur.fetchall()
+            return jsonify({'orders' : orders})
+        else:
+            return jsonify({'message' : "No ordered items"})
+
+
+            #select * from cart where user_id = 3
+            #insert into orders 
+
+@app.route('/orders', methods=['GET'])
+@is_logged_in
+def orders():
+    cur = mysql.connection.cursor()
+    result = cur.execute("SELECT * FROM orders WHERE user_id = %s",[session['userID']])
+    if result > 0:
+        orders = cur.fetchall()
+        return jsonify({'orders' : orders})
+    else:
+        return jsonify({'message' : "No ordered items"})
 
 @app.route('/delete_cart/<string:id>', methods=['POST'])
 @is_logged_in
