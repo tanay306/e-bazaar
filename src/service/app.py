@@ -282,6 +282,7 @@ def cart():
     cur = mysql.connection.cursor()
     result = cur.execute(f"""SELECT
                             cart.id,
+                            users.coins,
                             cart.ordered,
                             items.id,
                             items.title,
@@ -297,11 +298,17 @@ def cart():
                             """)
     if result>0:
         cart_items = cur.fetchall()
+        user_coins = cart_items['coins']
         for cart_item in cart_items:
             print(cart_item)
             total = total + float(cart_item['disc_price'])
             count = count + 1
-        return jsonify({'cart_items' : cart_items, 'total' : total, 'count' : count})
+        if user_coins >= total:
+            cur.execute("UPDATE cart SET sufficient_balance = %s WHERE user_id = %s", ("True",session['user_id']))
+            mysql.connection.commit()
+            return jsonify({'cart_items' : cart_items, 'total' : total, 'count' : count, 'user_coins' : user_coins})
+        else:
+            return jsonify({'cart_items' : cart_items, 'total' : total, 'count' : count, 'user_coins' : user_coins, 'message': "Vannot proceed due to insufficient balance"})      
     else:
         return jsonify({'message' : "No Item added to the cart"})
     cur.close()
