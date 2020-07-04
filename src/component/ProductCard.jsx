@@ -1,5 +1,7 @@
 import React from 'react'; 
+import { Button } from 'react-bootstrap';
 import styles from './ProductCard.module.css';
+
 const ProductCard = ({image,name,seller,price,description}) => {
       return (
   <>
@@ -15,10 +17,9 @@ const ProductCard = ({image,name,seller,price,description}) => {
             <p className={`${styles.listGroupItem} list-group-item`}>Price: {price}</p>
             <p className={`${styles.listGroupItem} list-group-item`}>Seller: {seller}</p>
             </div>
-          {/* <div className="card-body">
-            <button variant="primary">Add to cart <i className="fa fa-shopping-cart" aria-hidden="true" style={{ color: 'black' }}></i></button>
-            <button className="card-link">Buy now</button>
-          </div> */}
+          <div className={`${styles.cardBody} card-body`}>
+            <Button variant="outline-primary" size="sm">See Product Details</Button>
+          </div>
         </div></>
       );
 }

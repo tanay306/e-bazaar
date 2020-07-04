@@ -50,7 +50,7 @@ const CategoryView = () => {
   ];
   return (
     <div className={styles.CategoryView}>
-      <Card style={{ width: "80%" }}>
+      <Card style={{ width: "100%" }}>
         <TreeMenu data={treeData} onClickItem={(e) => console.log(e)} />
       </Card>
     </div>
