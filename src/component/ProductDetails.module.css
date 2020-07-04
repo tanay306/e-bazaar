@@ -1,0 +1,25 @@
+.leftSection {
+    width: 100%
+}
+
+.allProducts {
+    display: flex;
+}
+.productImage {
+    width: 60%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.paratext{
+    font-size:2rem;
+    margin-left: 0px;
+    padding:0px;
+}
+
+.paratextContent {
+    text-align: left;
+}
+.buttons{
+    float:left;
+}
