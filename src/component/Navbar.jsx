@@ -12,7 +12,7 @@ const NavbarComponent = () => {
       <Navbar.Brand href="#home">e-bazaar</Navbar.Brand>
       <Nav className="mr-auto">
         <Nav.Link href="#home">Home</Nav.Link>
-        <Nav.Link href="#features">My Cart</Nav.Link>
+        <Nav.Link><Link to="/myCart" style={{ color: 'rgba(255,255,255,.5)', textDecoration: 'none' }}>MyCart</Link></Nav.Link>
         {username ? 
          <NavDropdown title={`Welcome ${username}`} id="basic-nav-dropdown">
          <NavDropdown.Item href="/userProfile"><Link to="/userProfile">User Profile</Link></NavDropdown.Item>

@@ -269,7 +269,7 @@ def category(category_name):
 def add_cart(id):
     cur = mysql.connection.cursor()
     cur.execute("INSERT INTO cart(user_id, item_id) VALUES(%s, %s)",
-                    (session['userID'], [id]))
+                    (session['user_id'], [id]))
     mysql.connection.commit()
     cur.close()
     return jsonify({'message' : "Item added to cart"})
@@ -293,13 +293,14 @@ def cart():
                             FROM cart
                             INNER JOIN items on items.id = cart.item_id
                             INNER JOIN users on users.id = cart.user_id
-                            WHERE users.id = {session['userID']}
+                            WHERE users.id = {session['user_id']}
                             """)
     if result>0:
         cart_items = cur.fetchall()
         for cart_item in cart_items:
-            total = total + cart_item['disc_price']
-            count = count + cart_item
+            print(cart_item)
+            total = total + float(cart_item['disc_price'])
+            count = count + 1
         return jsonify({'cart_items' : cart_items, 'total' : total, 'count' : count})
     else:
         return jsonify({'message' : "No Item added to the cart"})
@@ -328,7 +329,9 @@ def bill():
                             """)
     if result>0:
         cart_items = cur.fetchall()
+        total = 0
         for cart_item in cart_items:
+            print(cart_item['disc_price'])
             total = total + cart_item['disc_price']
             count = count + cart_item
         return jsonify({'cart_items' : cart_items, 'total' : total, 'count' : count})
