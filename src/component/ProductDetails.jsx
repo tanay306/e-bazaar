@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
 import styles from './ProductDetails.module.css';
-import {Button} from 'react-bootstrap';
+import {Button,Card} from 'react-bootstrap';
 
 class ProductDetails extends Component{
     constructor(props) {
@@ -77,30 +77,38 @@ class ProductDetails extends Component{
         
                 console.log(product)
                 if (product) {
-                  const {category,price,user_id,description,title,img}=product;
+                  const {category,price,user_id,description,title,img,colour,size,disc_price}=product;
                   return(
-                    <div className="container-fluid">
+                    <div className="container">
+                    <Card className="mt-3 mb-3">
                     <div className="row">
-                    <div className={`${styles.leftSection} col-md-4`}>
+                    <div className={`${styles.leftSection} col-md-7 mt-4`}>
                     <img src={img || "https://370734-1159544-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2020/03/Chefman.jpg"} className={`${styles.productImage} card-img-top`} alt="..." />
                     </div>
-                    <div className="col-md-8">
+                    <div className="col-md-5">
                     <div className="row" style={{ display: 'block' }}>
-                    <h5>Seller-{user_id}</h5><br/>
-                    <div className={`${styles.paratext} col-md-8`}>
-                    <h3 className={styles.paratextContent}>Name-{title}</h3>
-                        <p className={styles.paratextContent}>Description-{description}</p>
-                       <p className={styles.paratextContent}> Price-{price}</p>
-                  <div><Button className={styles.buttons}variant="primary" onClick={() => this.addToCart(product.id)}>
-                      Add to Cart
-                    </Button> 
-                  </div>   
+                    <div className={`${styles.paratext} col-md-8 mt-3 mb-3`}>
+                    <h4 className={`${styles.paratextContent} text-center text-dark`}>Seller-{user_id}</h4>
+                    <h4 className={`${styles.paratextContent} text-center text-dark`}>Name : {title}</h4>
+                    <h4 className={`${styles.paratextContent} text-center text-dark`}>Description : {description}</h4>
+                    <h4 className={`${styles.paratextContent} text-center text-dark`}>Colour : {colour}</h4>
+                    <h4 className={`${styles.paratextContent} text-center text-dark`}> Price : {price}</h4>
+                    <h4 className={`${styles.paratextContent} text-center text-dark`}> New Price : {disc_price}</h4>
+                    <h4 className={`${styles.paratextContent} text-center text-dark`}> Size : {size}</h4>
+                    <div>
+                      <Button className={styles.buttons} variant="primary" onClick={() => this.addToCart(product.id)}>
+                        Add to Cart
+                      </Button> 
+                    </div>
+                    <h4 className={`${styles.paratextContent} text-center text-dark`}>Reviews:</h4>  
+                    <h6 className={`${styles.paratextContent} text-center text-dark`}>Azim Premji: Very good quality,perfect fitting.100% satisfied.</h6>  
                     </div>
                     
                     
                  </div>
                  </div>
                  </div>
+                 </Card>
                  </div>
                   );
                 }

@@ -115,7 +115,7 @@ def logout():
     session.clear()
     return jsonify({'message' : "You are logged out"})
 
-@app.route('/admin_info', method=['GET'])
+@app.route('/admin_info', methods=['GET'])
 @is_logged_in
 @is_admin
 def admin_info():

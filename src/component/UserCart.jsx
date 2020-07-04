@@ -1,6 +1,7 @@
 import React,{useEffect, useState} from 'react';
 import {Table,Dropdown, Button,Modal,ProgressBar} from "react-bootstrap";
 import Tracking from './Tracking';
+import styles from './UserCart.module.css';
 
 const UserCart = () => {
     const [cart, setCart] = useState([]);
@@ -58,20 +59,16 @@ const UserCart = () => {
         if (cart &&cart.length > 0 ){
             return (
                 <div className="container">
-                    <div className='row' ><h1>YOUR CART</h1></div>
+                    <div className={`${styles.title} text-center`} ><h1><u>YOUR CART</u></h1></div>
                     <div className="row mb-4">
                         <div className="col-sm-12 grid-margin">
-                            <div className="card h-100">
-                                <div className="card-body">
-                                    <Table striped bordered hover size="sm" variant="dark">
+                                    <Table hover responsive size="sm" variant="dark">
                                         <thead>
                                             <tr>
                                             <th>Product Name</th>
                                             <th>Discounted Price</th>
                                             <th>Price</th>
                                             <th>Remove</th>
-                                            
-                                            
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -82,22 +79,19 @@ const UserCart = () => {
                                             <td>{cartItem.title}</td>
                                             <td>{cartItem.disc_price}</td>
                                             <td>{cartItem.price}</td>
-                                            <td><Button variant="primary" onClick={() => deleteFromCart(cartItem.id)}>
-                      Remove from Cart
-                    </Button></td>
+                                            <td><Button variant="danger" onClick={() => deleteFromCart(cartItem.id)}>Remove</Button></td>
                                             </tr>
                                                 )
                                             })}
                                             
                                         </tbody>
                                     </Table>
-                                </div> 
-                            </div>
                         </div>
                     </div>
-                    <div className='row'><h4>Number Of Items-{count}</h4></div>
-                    <div className='row'><h4>Total Bill Amount-Rs {total}</h4></div>
+                    <div className={`${styles.extra} text-center text-dark`}><h4>Number Of Items-<strong>{count}</strong></h4></div>
+                    <div className={`${styles.extra} text-center text-dark`}><h4>Total Bill Amount-<strong>Rs {total}</strong></h4></div>
                     {/* <div className='row'><h4>Congratulations You Saved-Rs {price}!</h4></div> */}
+
                                         <div><Button variant='primary' onClick={buyNow} >Proceed to Buy</Button></div>
                                         <Modal show={show} onHide={handleClose} animation={false}>
         <Modal.Header closeButton>
@@ -106,6 +100,7 @@ const UserCart = () => {
         {user_coins>total?<div><p>Wohoo!,Congratulations Your Order Has been placed</p><ProgressBar animated now={100}/></div>:<p>You Dont have sufficient coins</p>}
         </Modal.Body>
       </Modal>
+
                 </div>
                 
             )
