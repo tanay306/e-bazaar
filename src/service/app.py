@@ -176,6 +176,7 @@ def add_items():
         delivery_in_days = requestdata['delivery_in_days']
         seller = requestdata['seller']
         img = requestdata['img']
+        
         cur = mysql.connection.cursor()
         cur.execute("INSERT INTO items(user_id, title, description, price, disc_price, size, colour, category, type, delivery_in_days, seller, img) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
                     (session['userID'], title, description, price, disc_price, size, colour, category, type_item, delivery_in_days, seller, img))
@@ -208,9 +209,11 @@ def edit_items(id):
         category = requestdata['category']
         type_item = requestdata['type']
         delivery_in_days = requestdata['delivery_in_days']
+        seller = requestdata['seller']
+
         cur = mysql.connection.cursor()
-        cur.execute("UPDATE items SET title = %s, description = %s, img = %s, price = %s, disc_price = %s, size = %s, colour = %s, category = %s, type  = %s, delivery_in_days = %s WHERE id=%s",
-                    (title, description, img, price, disc_price, size, colour, category, type_item, delivery_in_days, [id]))
+        cur.execute("UPDATE items SET title = %s, description = %s, img = %s, price = %s, disc_price = %s, size = %s, colour = %s, category = %s, type  = %s, delivery_in_days = %s, seller = %s WHERE id=%s",
+                    (title, description, img, price, disc_price, size, colour, category, type_item, delivery_in_days, seller, [id]))
         mysql.connection.commit()
         cur.close()
         return jsonify({'message' : "Item Edited"})
