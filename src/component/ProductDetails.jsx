@@ -77,12 +77,12 @@ class ProductDetails extends Component{
         
                 console.log(product)
                 if (product) {
-                  const {category,price,user_id,description,title}=product;
+                  const {category,price,user_id,description,title,img}=product;
                   return(
                     <div className="container-fluid">
                     <div className="row">
                     <div className={`${styles.leftSection} col-md-4`}>
-                    <img src="https://images-na.ssl-images-amazon.com/images/I/41%2BfXlXMPyL.jpg" className={`${styles.productImage} card-img-top`} alt="..." />
+                    <img src={img || "https://370734-1159544-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2020/03/Chefman.jpg"} className={`${styles.productImage} card-img-top`} alt="..." />
                     </div>
                     <div className="col-md-8">
                     <div className="row" style={{ display: 'block' }}>

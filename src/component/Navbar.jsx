@@ -4,12 +4,13 @@ import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import Login from './Login';
 import Logout from './Logout';
 import UserProfile from './UserProfle';
+import AdminLogin from './AdminLogin';
 
 const NavbarComponent = () => {
   const username = localStorage.getItem('username');
   return (<>
     <Navbar bg="dark" variant="dark" fixed="top">
-      <Navbar.Brand href="#home">e-bazaar</Navbar.Brand>
+      <Navbar.Brand href="/">e-bazaar</Navbar.Brand>
       <Nav className="mr-auto">
         <Nav.Link href="#home">Home</Nav.Link>
         <Nav.Link><Link to="/myCart" style={{ color: 'rgba(255,255,255,.5)', textDecoration: 'none' }}>MyCart</Link></Nav.Link>
@@ -20,6 +21,7 @@ const NavbarComponent = () => {
          <NavDropdown.Item><Logout /></NavDropdown.Item>
        </NavDropdown> : <Login />   
       }
+      <Nav.Link><AdminLogin /></Nav.Link>
       </Nav>
     </Navbar>
     <br />
