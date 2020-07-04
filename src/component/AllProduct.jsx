@@ -12,9 +12,9 @@ const AllProduct = ()=>{
       </div>
       <div className="col-md-9">
       <div className="row" style={{ display: 'flex', justifyContent: 'space-evenly',columnCount: '3' }}>
-  <ProductCard name='HArsh' price='786$' seller='Apple' />
-<ProductCard name='HArsh' price='786$' seller='Apple' />
-   <ProductCard name='HArsh' price='786$' seller='Apple' />
+  <ProductCard name='Varun' price='786$' seller='Apple' />
+<ProductCard name='Tanay' price='786$' seller='Apple' />
+   <ProductCard name='Yash' price='786$' seller='Apple' />
    </div>
    </div>
    </div>
