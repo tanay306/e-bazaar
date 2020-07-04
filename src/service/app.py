@@ -322,6 +322,8 @@ def cart():
             mysql.connection.commit()
             return jsonify({'cart_items' : cart_items, 'total' : total, 'count' : count, 'user_coins' : user_coins})
         else:
+            cur.execute("UPDATE cart SET sufficient_balance = %s WHERE user_id = %s", ("False",session['user_id']))
+            mysql.connection.commit()
             return jsonify({'cart_items' : cart_items, 'total' : total, 'count' : count, 'user_coins' : user_coins, 'message': "Vannot proceed due to insufficient balance"})      
     else:
         return jsonify({'message' : "No Item added to the cart"})

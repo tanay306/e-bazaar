@@ -1,11 +1,16 @@
 import React,{useEffect, useState} from 'react';
-import {Table,Dropdown, Button} from "react-bootstrap";
+import {Table,Dropdown, Button,Modal,ProgressBar} from "react-bootstrap";
 import Tracking from './Tracking';
 
 const UserCart = () => {
     const [cart, setCart] = useState([]);
     const [count, setCount]=useState(0);
     const [total, setTotal]= useState(0);
+    const[user_coins, setUser_coins]=useState(0)
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
     // const [price, setPrice]= useState(0);
     // const [discountprice, setdiscountPrice]= useState(0);
 
@@ -22,6 +27,7 @@ const UserCart = () => {
         setCart(res.cart_items);
         setCount(res.count);
         setTotal(res.total);
+        setUser_coins(res.user_coins);
       })
       .catch(err=>console.log(err));
         }, []);
@@ -82,7 +88,14 @@ const UserCart = () => {
                     <div className='row'><h4>Number Of Items-{count}</h4></div>
                     <div className='row'><h4>Total Bill Amount-Rs {total}</h4></div>
                     {/* <div className='row'><h4>Congratulations You Saved-Rs {price}!</h4></div> */}
-                                        <div><Button variant='primary' >Proceed to Buy</Button></div>
+                                        <div><Button variant='primary' onClick={handleShow} >Proceed to Buy</Button></div>
+                                        <Modal show={show} onHide={handleClose} animation={false}>
+        <Modal.Header closeButton>
+        </Modal.Header>
+        <Modal.Body>
+        {user_coins>total?<div><p>Wohoo!,Congratulations Your Order Has been placed</p><ProgressBar animated now={100}/></div>:<p>You Dont have sufficient coins</p>}
+        </Modal.Body>
+      </Modal>
                 </div>
                 
             )
