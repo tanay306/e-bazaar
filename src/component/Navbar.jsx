@@ -4,8 +4,8 @@ import Login from './Login';
 
 const NavbarComponent = () => {
   return (<>
-    <Navbar bg="dark" variant="dark">
-      <Navbar.Brand href="#home">Navbar</Navbar.Brand>
+    <Navbar bg="dark" variant="dark" fixed="top">
+      <Navbar.Brand href="#home">e-bazaar</Navbar.Brand>
       <Nav className="mr-auto">
         <Nav.Link href="#home">Home</Nav.Link>
         <Nav.Link href="#features">Features</Nav.Link>
@@ -13,6 +13,7 @@ const NavbarComponent = () => {
       </Nav>
      <Login />
     </Navbar>
+    <br />
   </>)
 };
 

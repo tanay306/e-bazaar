@@ -1,9 +1,9 @@
 import React ,{useState}from 'react';
-import {Tabs,Tab, Button,Modal,InputGroup,FormControl,Form } from 'react-bootstrap';
-const SignIn = () =>{
+import {Button,Form } from 'react-bootstrap';
+const SignIn = ({handleClose}) =>{
 const [username,setusername]=useState(null);
 const [password,setPassword]=useState(null);
-console.log(username,password)
+
 const handleSubmit=(e)=>{
   e.preventDefault();
   const data={
@@ -17,7 +17,14 @@ const handleSubmit=(e)=>{
 }, body:JSON.stringify(data)
   })
 .then(res=>res.json())
-.then(res=>console.log(res))
+.then((res)=> {
+  console.log(res);
+  if (res.returning.username) {
+    localStorage.setItem('username', res.returning.username);
+    handleClose();
+    window.location.reload();
+  }
+})
 .catch(err=>console.log(err));
 }
     return(
