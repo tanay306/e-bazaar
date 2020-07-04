@@ -7,7 +7,8 @@ import ProductDetails from "./component/ProductDetails";
 import UserProfile from './component/UserProfle';
 import Login from './component/Login';
 import UserCart from './component/UserCart';
-import manageProduct from './component/ManageProduct';
+import ManageProduct from './component/ManageProduct';
+import SellerDashboard from './component/SellerDashboard';
 
 const App = () => {
   return (
@@ -23,7 +24,8 @@ const App = () => {
       <Route path="/products/:title" component={ProductDetails} />
       <Route path="/userProfile" render={() => <UserProfile />} />
       <Route path="/myCart" render={() => <UserCart />} />
-      <Route path="/edit_items/:title" component={manageProduct} />
+      <Route path="/seller" render={() => <SellerDashboard />} />
+      <Route path="/edit_items/:id" component={ManageProduct} />
       <Route path="/" render={() => <AllProduct />} />
       </Switch>
     </div>
