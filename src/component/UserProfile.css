@@ -16,6 +16,9 @@ img {
     vertical-align: middle;
     border-style: none;
 }
+.info{
+  font-size: 1.4rem;
+}
 /* About Me 
 ---------------------*/
 .about-text h3 {
