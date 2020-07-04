@@ -17,7 +17,7 @@ const App = () => {
         {/* RAM-64GB'/> */}
         <Switch>
       <Route path="/all-products" render={() => <Login />} />
-      <Route path="/product/:productId" render={() => <AllProduct />} />
+      <Route path="/products/:title" component={ProductDetails} />
       <Route path="/userProfile" render={() => <UserProfile />} />
       <Route path="/" render={() => <AllProduct />} />
       </Switch>
