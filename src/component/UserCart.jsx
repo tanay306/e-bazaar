@@ -1,10 +1,13 @@
 import React,{useEffect, useState} from 'react';
 import {Table,Dropdown, Button} from "react-bootstrap";
+import Tracking from './Tracking';
 
 const UserCart = () => {
     const [cart, setCart] = useState([]);
     const [count, setCount]=useState(0);
     const [total, setTotal]= useState(0);
+    // const [price, setPrice]= useState(0);
+    // const [discountprice, setdiscountPrice]= useState(0);
 
     useEffect(()=>{
         fetch('/cart',{
@@ -21,19 +24,22 @@ const UserCart = () => {
         setTotal(res.total);
       })
       .catch(err=>console.log(err));
-        }, [])
+        }, []);
         const deleteFromCart = (id) => {
             fetch(`/delete_cart/${id}`, {
-                method: 'GET',
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application-json'
                 }
             })
             .then(res => res.json())
-            .then(data => console.log(data))
+            .then((data) => {
+                console.log(data)
+                window.location.reload();
+            })
             .catch(err => console.log(err))
         }
-        if (cart.length > 0 ){
+        if (cart &&cart.length > 0 ){
             return (
                 <div className="container">
                     <div className="row mb-4">
@@ -53,6 +59,7 @@ const UserCart = () => {
                                         </thead>
                                         <tbody>
                                             {cart.map((cartItem) => {
+                                             
                                                 return (
                                                     <tr>
                                             <td>{cartItem.title}</td>
@@ -67,11 +74,16 @@ const UserCart = () => {
                                             
                                         </tbody>
                                     </Table>
-                                </div>
+                                </div> 
                             </div>
                         </div>
                     </div>
+                    <div className='row'><h4>Number Of Items-{count}</h4></div>
+                    <div className='row'><h4>Total Bill Amount-Rs {total}</h4></div>
+                    {/* <div className='row'><h4>Congratulations You Saved-Rs {price}!</h4></div> */}
+                                        <div><Button variant='primary' >Proceed to Buy</Button></div>
                 </div>
+                
             )
         }
     return <h6>Your cart is empty!</h6>
