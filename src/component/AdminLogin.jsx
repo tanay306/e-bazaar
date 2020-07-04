@@ -19,7 +19,7 @@ const AdminLogin = () => {
   const [key, setKey] = useState("Sign in");
   return (
     <>
-<Button variant="secondary" onClick={handleShow}>Admin Login</Button>
+<Button variant="primary" onClick={handleShow}>Admin Login</Button>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
         </Modal.Header>
