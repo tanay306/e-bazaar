@@ -1,6 +1,7 @@
 import React from 'react'; 
 import { Button } from 'react-bootstrap';
 import styles from './ProductCard.module.css';
+import ProductDetails from './ProductDetails';
 
 const ProductCard = ({image,name,seller,price,description}) => {
       return (
@@ -18,7 +19,7 @@ const ProductCard = ({image,name,seller,price,description}) => {
             <p className={`${styles.listGroupItem} list-group-item`}>Seller: {seller}</p>
             </div>
           <div className={`${styles.cardBody} card-body`}>
-            <Button variant="outline-primary" size="sm">See Product Details</Button>
+            <Button variant="outline-primary" size="sm" onClick={ProductDetails}>See Product Details</Button>
           </div>
         </div></>
       );

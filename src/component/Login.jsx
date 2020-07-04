@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Tabs, Tab, Button, Modal } from "react-bootstrap";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
+
 const Login = () => {
   useEffect(() => {
     if (localStorage.getItem('username')) {
@@ -40,7 +41,7 @@ const Login = () => {
             </div>
         </Modal.Body>
       </Modal>
-    </>
+    </> 
   );
 };
 
