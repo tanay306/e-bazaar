@@ -24,7 +24,6 @@ mysql = MySQL(app)
 @app.route('/register', methods=['POST','GET'])
 @cross_origin(origin='*',headers=['Content-Type','Authorization'])
 def register():
-    print(session)
     cur = mysql.connection.cursor()
     requestdata=json.loads(request.data)
     print(requestdata)
@@ -74,7 +73,7 @@ def login():
             session['logged_in'] = True
             session['username'] = username
             session['role'] = role
-            session['userID'] = userID
+            session['user_id'] = userID
            
             # return jsonify({ 'response': 'Login successful' })
         else:
@@ -87,7 +86,8 @@ def login():
         return jsonify({ 'error': error })
 
     returning = {
-		'username' : session['username']
+        'userId': session['user_id'],
+		'username': session['username']
 	}
     return jsonify({'returning' : returning})
 
@@ -115,13 +115,14 @@ def logout():
     session.clear()
     return jsonify({'message' : "You are logged out"})
 
-@app.route('/user_details', methods=['GET'])
+@app.route('/user_details/<string:userId>', methods=['GET'])
 @is_logged_in
-def user_details():
+def user_details(userId):
+    print(userId)
     cur = mysql.connection.cursor()
-    result = cur.execute("SELECT * FROM users WHERE id=%s", session['userID'])
+    result = cur.execute("SELECT * FROM users WHERE id=%s", userId)
     if result > 0:
-        user_details = cur.fetchall()
+        user_details = cur.fetchall()[0]
         return jsonify({'user_details' : user_details})
     else:
         return jsonify({'message' : "No User details Found!!!"})
