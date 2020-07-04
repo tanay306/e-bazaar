@@ -20,6 +20,7 @@ const NavbarComponent = () => {
           <Nav>
             <Nav.Link href="#home" className="text-white"><h4>Home</h4></Nav.Link>
             <Nav.Link><Link to="/myCart" style={{ color: 'rgba(255,255,255,.5)', textDecoration: 'none' }} className="text-white"><h4>MyCart</h4></Link></Nav.Link>
+            <Nav.Link><Link to="/myOrders" style={{ color: 'rgba(255,255,255,.5)', textDecoration: 'none' }} className="text-white"><h4>MyOrders</h4></Link></Nav.Link>
             {username ? 
               <NavDropdown title={`WELCOME ${username}`} id="basic-nav-dropdown" className="text-white">
               <NavDropdown.Item href="/userProfile"><Link to="/userProfile">User Profile</Link></NavDropdown.Item>
