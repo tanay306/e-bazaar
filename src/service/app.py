@@ -322,6 +322,8 @@ def cart():
             mysql.connection.commit()
             return jsonify({'cart_items' : cart_items, 'total' : total, 'count' : count, 'user_coins' : user_coins})
         else:
+            cur.execute("UPDATE cart SET sufficient_balance = %s WHERE user_id = %s", ("False",session['user_id']))
+            mysql.connection.commit()
             return jsonify({'cart_items' : cart_items, 'total' : total, 'count' : count, 'user_coins' : user_coins, 'message': "Vannot proceed due to insufficient balance"})      
     else:
         return jsonify({'message' : "No Item added to the cart"})
@@ -387,9 +389,13 @@ def update_status(id):
 @is_logged_in
 def add_orders():
     cur = mysql.connection.cursor()
-    cur.execute("UPDATE cart SET ordered = %s WHERE user_id = %s", ("True",session['userID']))
-    cur.execute("INSERT INTO orders (user_id, item_id, cart_id) SELECT user_id, item_id, id FROM cart where ordered=%s",("True"))
-    cur.execute("DELETE from cart where ordered=%s and user_id = %s", ("True",session['userID']))
+    cur.execute("UPDATE cart SET ordered = %s WHERE user_id = %s", ("True",session['user_id']))
+    mysql.connection.commit()
+    print("INSERT INTO orders (user_id, item_id, cart_id) SELECT user_id, item_id, id FROM cart where ordered=%s AND user_id=%s",("True",session['user_id']))
+    
+    cur.execute("INSERT INTO orders (user_id, item_id, cart_id) SELECT user_id, item_id, id FROM cart where ordered=%s AND user_id=%s",["True",session['user_id']])
+    mysql.connection.commit()
+    cur.execute("DELETE from cart where ordered=%s and user_id = %s", ("True",session['user_id']))
     mysql.connection.commit()
     cur.close()
     return jsonify({'message' : "Your Ordered has been placed"})
@@ -398,7 +404,7 @@ def add_orders():
 @is_logged_in
 def orders():
     cur = mysql.connection.cursor()
-    result = cur.execute("SELECT * FROM orders WHERE user_id = %s",[session['userID']])
+    result = cur.execute("SELECT * FROM orders WHERE user_id = %s",[session['user_id']])
     if result > 0:
         orders = cur.fetchall()
         return jsonify({'orders' : orders})
