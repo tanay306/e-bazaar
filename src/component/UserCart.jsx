@@ -54,7 +54,8 @@ const UserCart = () => {
                  method: 'POST',
                  headers: {
                      'Content-Type': 'application-json'
-                 }
+                 },
+                 body: JSON.stringify({ coin_balance: user_coins-total })
              })
              .then(res => res.json())
              .then((data) => {

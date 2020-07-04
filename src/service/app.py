@@ -389,8 +389,11 @@ def update_status(id):
 @is_logged_in
 def add_orders():
     cur = mysql.connection.cursor()
+    requestdata=json.loads(request.data)
+    coin_balance = requestdata['coin_balance']
     cur.execute("UPDATE cart SET ordered = %s WHERE user_id = %s", ("True",session['user_id']))
     cur.execute("INSERT INTO orders (user_id, item_id, cart_id) SELECT user_id, item_id, id FROM cart where ordered=%s AND user_id=%s",["True",session['user_id']])
+    cur.execute("UPDATE users SET coins = %s WHERE id = %s", (coin_balance, session['user_id']))
     mysql.connection.commit()
     cur.close()
     return jsonify({'message' : "Your Ordered has been placed"})
