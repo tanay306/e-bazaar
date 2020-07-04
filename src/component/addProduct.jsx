@@ -37,7 +37,7 @@ const manageProduct = () => {
       img
     };
     console.log(data);
-    fetch('/edit_items', {
+    fetch('/add_items', {
       method: 'POST',
       headers: {
         'Content-type': 'application-json'
@@ -92,15 +92,11 @@ const manageProduct = () => {
           <Form.Control onChange={e => setSeller(e.target.value)} type="text" placeholder="Enter Seller" />
         </Form.Group>
         <Form.Group controlId="img">
-          <Form.Label>Imag</Form.Label>
-          <Form.Control onChange={e => setImg(e.target.value)} placeholder="Enter Img" />
+          <Form.Label>Image</Form.Label>
+          <Form.Control onChange={e => setImg(e.target.value)} placeholder="Enter Image" />
         </Form.Group>
-        <Button variant="primary" type="submit">
-        Cancel
-        </Button>
-        <Button variant="primary" type="submit">
-        Add
-        </Button>
+        <Button variant="primary" type="submit">Cancel</Button>
+        <Button variant="primary" type="submit">Add</Button>
       </Form>
     </div>
   );
