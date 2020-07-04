@@ -115,6 +115,20 @@ def logout():
     session.clear()
     return jsonify({'message' : "You are logged out"})
 
+@app.route('/admin_info', method=['GET'])
+@is_logged_in
+@is_admin
+def admin_info():
+    cur = mysql.connection.cursor()
+    result = cur.execute("SELECT * FROM users WHERE user_id=%s", session['userID'])
+    if result > 0:
+        information = cur.fetchone()
+        return jsonify({'information' : information})
+    else:
+        return jsonify({'message' : "Error 404!!"})
+    cur.close()
+
+
 @app.route('/add_items', methods=['GET','POST'])
 @is_logged_in
 @is_admin
