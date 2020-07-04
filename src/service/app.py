@@ -241,7 +241,7 @@ def products(title):
 @is_admin
 def admin_products():
     cur = mysql.connection.cursor()
-    result = cur.execute("SELECT * FROM items WHERE user_id=%s", session['userID'])
+    result = cur.execute("SELECT * FROM items WHERE user_id=%s", (session['userID']))
     if result > 0:
         items = cur.fetchall()
         return jsonify({'items' : items})
@@ -336,18 +336,12 @@ def bill():
 @is_logged_in
 def add_orders():
     cur = mysql.connection.cursor()
-    data = cur.execute("UPDATE cart SET ordered=%s WHERE user_id=%s",("True",session['userID']))
-    if data:
-        result = cur.execute("INSERT INTO orders SELECT user_id FROM users WHERE ordered=%s AND user_id=%s",("True",session['userID']))
-        if result > 0:
-            orders = cur.fetchall()
-            return jsonify({'orders' : orders})
-        else:
-            return jsonify({'message' : "No ordered items"})
-
-
-            #select * from cart where user_id = 3
-            #insert into orders 
+    cur.execute("UPDATE cart SET ordered = %s WHERE user_id = %s", ("True",session['userID']))
+    cur.execute("INSERT INTO orders (user_id, item_id, cart_id) SELECT user_id, item_id, id FROM cart where ordered=%s",("True"))
+    cur.execute("DELETE from cart where ordered=%s and user_id = %s", ("True",session['userID']))
+    mysql.connection.commit()
+    cur.close()
+    return jsonify({'message' : "Your Ordered has been placed"})
 
 @app.route('/orders', methods=['GET'])
 @is_logged_in
