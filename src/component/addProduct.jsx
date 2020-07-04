@@ -37,7 +37,7 @@ const manageProduct = () => {
       img
     };
     console.log(data);
-    fetch('/edit_items', {
+    fetch('/add_items', {
       method: 'POST',
       headers: {
         'Content-type': 'application-json'

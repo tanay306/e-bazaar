@@ -167,7 +167,6 @@ def add_items():
         requestdata=json.loads(request.data)
         title = requestdata['title']
         description = requestdata['description']
-        img = requestdata['description']
         price = requestdata['price']
         disc_price = requestdata['disc_price']
         size = requestdata['size']
@@ -175,9 +174,12 @@ def add_items():
         category = requestdata['category']
         type_item = requestdata['type']
         delivery_in_days = requestdata['delivery_in_days']
+        seller = requestdata['seller']
+        img = requestdata['img']
+        
         cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO items(user_id, title, description, img, price, disc_price, size, colour, category, type, delivery_in_days) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-                    (session['userID'], title, description, img, price, disc_price, size, colour, category, type_item, delivery_in_days))
+        cur.execute("INSERT INTO items(user_id, title, description, price, disc_price, size, colour, category, type, delivery_in_days, seller, img) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                    (session['userID'], title, description, price, disc_price, size, colour, category, type_item, delivery_in_days, seller, img))
         mysql.connection.commit()
         cur.close()
         return jsonify({'message' : "Item Added"})
@@ -191,7 +193,7 @@ def delete_item(title):
     cur.close()
     return jsonify({'message' : "Item Deleted"})
 
-@app.route('/edit_items<string:id>', methods=['GET','POST'])
+@app.route('/edit_items/<string:id>', methods=['GET','POST'])
 @is_logged_in
 @is_admin
 def edit_items(id):
@@ -207,9 +209,11 @@ def edit_items(id):
         category = requestdata['category']
         type_item = requestdata['type']
         delivery_in_days = requestdata['delivery_in_days']
+        seller = requestdata['seller']
+
         cur = mysql.connection.cursor()
-        cur.execute("UPDATE items SET title = %s, description = %s, img = %s, price = %s, disc_price = %s, size = %s, colour = %s, category = %s, type  = %s, delivery_in_days = %s WHERE id=%s",
-                    (title, description, img, price, disc_price, size, colour, category, type_item, delivery_in_days, [id]))
+        cur.execute("UPDATE items SET title = %s, description = %s, img = %s, price = %s, disc_price = %s, size = %s, colour = %s, category = %s, type  = %s, delivery_in_days = %s, seller = %s WHERE id=%s",
+                    (title, description, img, price, disc_price, size, colour, category, type_item, delivery_in_days, seller, [id]))
         mysql.connection.commit()
         cur.close()
         return jsonify({'message' : "Item Edited"})
@@ -308,7 +312,7 @@ def bill():
     total = 0
     count = 0
     cur = mysql.connection.cursor()
-    result = cur.execute("""SELECT
+    result = cur.execute(f"""SELECT
                             cart.id,
                             cart.ordered,
                             items.id,
@@ -334,6 +338,29 @@ def bill():
     else:
         return jsonify({'message' : "No Item added to the cart"})
     cur.close()
+
+@app.route('/order_status', methods=['GET'])
+@is_logged_in
+def order_status():
+    cur = mysql.connection.cursor()
+    result = cur.execute("SELECT id FROM orders WHERE user_id = %s",(session['userID']))
+    if result > 0:
+        values = cur.fetchall()
+        return jsonify({'values' : values})
+    else:
+        return jsonify({'message' : "No orders"})
+
+@app.route('/update_status/<string:id>' ,methods=['POST','PUT'])
+@is_logged_in
+def update_status(id):
+    cur = mysql.connection.cursor()
+    requestdata=json.loads(request.data)
+    status = requestdata['status']
+
+    cur.execute("UPDATE orders SET status=%s WHERE id=%s",(status,[id]))
+    mysql.connection.commit()
+    cur.close()
+    return jsonify({'message' : "Status Updated"})
 
 @app.route('/add_orders', methods=['POST','PUT'])
 @is_logged_in

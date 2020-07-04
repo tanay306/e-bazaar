@@ -1,5 +1,5 @@
 import React from 'react';
-import {Table,Dropdown} from "react-bootstrap";
+import {Table,Dropdown,Form} from "react-bootstrap";
 
 const OrderTable = () => {
     return (
@@ -8,7 +8,7 @@ const OrderTable = () => {
                 <div className="col-sm-12 grid-margin">
                     <div className="card h-100">
                         <div className="card-body">
-                            <Table striped bordered hover size="sm" variant="dark">
+                            <Table striped bordered hover variant="dark">
                                 <thead>
                                     <tr>
                                     <th>Order ID:</th>
@@ -19,18 +19,17 @@ const OrderTable = () => {
                                     <tr>
                                     <td>1</td>
                                     <td>
-                                        <Dropdown>
-                                            <Dropdown.Toggle variant="success" id="dropdown-basic">
-                                                Status
-                                            </Dropdown.Toggle>
-                                            <Dropdown.Menu>
-                                                <Dropdown.Item href="#/action-1">Ordered</Dropdown.Item>
-                                                <Dropdown.Item href="#/action-2">Shipped</Dropdown.Item>
-                                                <Dropdown.Item href="#/action-3">Out For Delivery</Dropdown.Item>
-                                                <Dropdown.Item href="#/action-3">Delivered</Dropdown.Item>
-                                                <Dropdown.Item href="#/action-3">Cancelled</Dropdown.Item>
-                                            </Dropdown.Menu>
-                                        </Dropdown>
+                                        <Form>
+                                            <Form.Group controlId="formGridState">
+                                            <Form.Control as="select" value="Choose...">
+                                                <option>Ordered</option>
+                                                <option>Shipped</option>
+                                                <option>Out For Delivery</option>
+                                                <option>Delivered</option>
+                                                <option>Cancelled</option>
+                                            </Form.Control>
+                                            </Form.Group>
+                                        </Form>
                                     </td>
                                     </tr>
                                 </tbody>
