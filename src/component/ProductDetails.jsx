@@ -3,12 +3,12 @@ import { useParams } from 'react-router-dom';
 import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
 import styles from './ProductDetails.module.css';
-import {Button,Card} from 'react-bootstrap';
+import {Button,Card, Alert} from 'react-bootstrap';
 
 class ProductDetails extends Component{
     constructor(props) {
         super(props);
-        this.state = { product: null };
+        this.state = { product: null, showToast: false };
     }
     componentDidMount() {
         const productTitle = get(this.props, 'match.params.title', null);
@@ -64,12 +64,15 @@ class ProductDetails extends Component{
             }
         })
         .then(res => res.json())
-        .then(data => console.log(data))
+      .then((data) => {
+        console.log(data)
+      this.setState({ showToast: true });
+      })
         .catch(err => console.log(err))
     }
 
     render() {
-        const { product } = this.state;
+        const { product, showToast} = this.state;
         console.log(this.props)
         const productTitle = get(this.props, 'match.params.title', null);
             if (productTitle) {
@@ -80,6 +83,7 @@ class ProductDetails extends Component{
                   const {category,price,user_id,description,title,img,colour,size,disc_price}=product;
                   return(
                     <div className="container">
+                      {showToast ? <Alert show={showToast} variant="success" dismissible onClose={() => this.setState({ showToast: false})}>{'Item added to cart'}</Alert>:null}
                     <Card className="mt-3 mb-3">
                     <div className="row">
                     <div className={`${styles.leftSection} col-md-7 mt-4`}>
