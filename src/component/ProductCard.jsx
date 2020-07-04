@@ -6,7 +6,7 @@ import ProductDetails from './ProductDetails';
 const ProductCard = ({image,name,seller,price,description}) => {
       return (
   <>
-        <div className="card" style={{width: '25%'}}>
+        <div className="card" style={{width: '100%'}}>
         
           <img src="https://images-na.ssl-images-amazon.com/images/I/41%2BfXlXMPyL.jpg" className={`${styles.productImage} card-img-top`} alt="..." />
           
