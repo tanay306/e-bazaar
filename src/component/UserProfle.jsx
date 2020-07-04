@@ -1,7 +1,7 @@
 import React from 'react'; 
 const UserProfile = () => {
       return (
-      //  <Form.Control type="text" placeholder="Readonly input here..." readOnly />
+        <div>
         <section className="section about-section gray-bg" id="about">
           <div className="container">
             <div className="row align-items-center flex-row-reverse">
@@ -53,6 +53,7 @@ const UserProfile = () => {
             </div>
           </div>
         </section>
+        </div>
       );
     }
 export default UserProfile;
