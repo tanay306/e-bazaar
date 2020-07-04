@@ -79,6 +79,7 @@ const UserOrders = () => {
                                             <th>Item Id</th>
                                             <th>Cart Id</th>
                                             <th>Status</th>
+                                            <th>Show Bill</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -90,6 +91,7 @@ const UserOrders = () => {
                                             <td>{cartItem.item_id}</td>
                                             <td>{cartItem.cart_id}</td>
                                            <td style={{ margin: 'auto', width: '100px' }}><Tracking orderId={cartItem.id} status={Math.floor((Math.random() * 3) + 1)} /></td>
+                                           <td><Button href={`/bill/${cartItem.cart_id}`}>View Bill</Button></td>
                                             </tr>
                                                 )
                                             })}
