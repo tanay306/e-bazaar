@@ -332,6 +332,29 @@ def bill():
         return jsonify({'message' : "No Item added to the cart"})
     cur.close()
 
+@app.route('/order_status', methods=['GET'])
+@is_logged_in
+def order_status():
+    cur = mysql.connection.cursor()
+    result = cur.execute("SELECT id FROM orders WHERE user_id = %s",(session['userID']))
+    if result > 0:
+        values = cur.fetchall()
+        return jsonify({'values' : values})
+    else:
+        return jsonify({'message' : "No orders"})
+
+@app.route('/update_status/<string:id>' ,methods=['POST','PUT'])
+@is_logged_in
+def update_status(id):
+    cur = mysql.connection.cursor()
+    requestdata=json.loads(request.data)
+    status = requestdata['status']
+
+    cur.execute("UPDATE orders SET status=%s WHERE id=%s",(status,[id]))
+    mysql.connection.commit()
+    cur.close()
+    return jsonify({'message' : "Status Updated"})
+
 @app.route('/add_orders', methods=['POST','PUT'])
 @is_logged_in
 def add_orders():
