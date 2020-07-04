@@ -5,11 +5,12 @@ import styles from './ProductCard.module.css';
 import ProductDetails from './ProductDetails';
 
 const ProductCard = ({image,name,seller,price,description}) => {
+  console.log(image)
       return (
   <>
         <div className="card" style={{width: '100%'}}>
         
-          <img src="https://images-na.ssl-images-amazon.com/images/I/41%2BfXlXMPyL.jpg" className={`${styles.productImage} card-img-top`} alt="..." />
+          <img src={image || "https://370734-1159544-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2020/03/Chefman.jpg"} className={`${styles.productImage} card-img-top`} alt="..." width="100px" height="150px"/>
           
           <div className="card-body">
             <h2 className={`${styles.cardTitle} card-title`}>{name}</h2>

@@ -29,7 +29,7 @@ setProducts(res.products);
       <div className="col-md-9">
       <div className={styles.productCards}>
   {products.map((product) => {console.log(product.price)
-    return <div className={styles.singleCard}><ProductCard name={product.title} price={`Rs. ${product.price}`} seller='Apple'/></div>
+    return <div className={styles.singleCard}><ProductCard image={product.img} name={product.title} price={`Rs. ${product.price}`} seller='Apple'/></div>
   })}      
    </div>
    </div>

@@ -42,6 +42,7 @@ const UserCart = () => {
         if (cart &&cart.length > 0 ){
             return (
                 <div className="container">
+                    <div className='row' ><h1>YOUR CART</h1></div>
                     <div className="row mb-4">
                         <div className="col-sm-12 grid-margin">
                             <div className="card h-100">
