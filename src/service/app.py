@@ -127,6 +127,37 @@ def user_details():
         return jsonify({'message' : "No User details Found!!!"})
     cur.close()
 
+@app.route('/update_user', methods=['POST', 'PUT'])
+@is_logged_in
+def update_user():
+    cur = mysql.connection.cursor()
+    requestdata=json.loads(request.data)
+    username = requestdata['username']
+    full_name = requestdata['full_name']
+    email = requestdata['email']
+    address = requestdata['address']
+    area = requestdata['area']
+    city_with_pincode = requestdata['city_with_pincode']
+    state_name = requestdata['state']
+    mobile_number = requestdata['mobile_number']
+    password = requestdata['password']
+
+    cur.execute("UPDATE users SET username = %s, full_name = %s, email = %s, address = %s, area = %s, city_with_pincode = %s, state_name = %s, mobile_number = %s, password=%s WHERE id=%s",(username,full_name,email,address,area,city_with_pincode,state_name,mobile_number,password,session['userID']))
+    mysql.connection.commit()
+    result = {
+		'username' : username,
+		'full_name' : full_name,
+		'email' : email,
+        'address' : address,
+        'area' : area,
+        'city_with_pincode' : city_with_pincode,
+        'state_name' : state_name,
+        'mobile_number' : mobile_number,
+		'password' : password,
+	}
+    cur.close()
+    return jsonify({'result' : result})
+
 @app.route('/add_items', methods=['GET','POST'])
 @is_logged_in
 @is_admin
@@ -316,10 +347,6 @@ def add_orders():
 
             #select * from cart where user_id = 3
             #insert into orders 
-
-
-
-
 
 @app.route('/orders', methods=['GET'])
 @is_logged_in
