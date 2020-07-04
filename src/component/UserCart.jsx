@@ -1,4 +1,5 @@
 import React,{useEffect, useState} from 'react';
+import filter from 'lodash/filter';
 import {Table,Dropdown, Button,Modal,ProgressBar} from "react-bootstrap";
 import Tracking from './Tracking';
 import styles from './UserCart.module.css';
@@ -9,6 +10,7 @@ const UserCart = () => {
     const [total, setTotal]= useState(0);
     const[user_coins, setUser_coins]=useState(0)
     const [show, setShow] = useState(false);
+    const [progress, setProgress] = useState(50);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -25,7 +27,7 @@ const UserCart = () => {
       .then(res=>res.json())
       .then((res)=> {
         console.log(res);
-        setCart(res.cart_items);
+        setCart(filter(res.cart_items, function(o) { return o.ordered==='False'; }));
         setCount(res.count);
         setTotal(res.total);
         setUser_coins(res.user_coins);
@@ -47,12 +49,20 @@ const UserCart = () => {
             .catch(err => console.log(err))
         }
          const buyNow =()=>{
+            handleShow()
              fetch(`/add_orders`, {
                  method: 'POST',
                  headers: {
                      'Content-Type': 'application-json'
                  }
              })
+             .then(res => res.json())
+             .then((data) => {
+                 console.log(data)
+                 setProgress(100)
+                
+             })
+             .catch(err => console.log(err))
             
 
          }
@@ -97,7 +107,9 @@ const UserCart = () => {
         <Modal.Header closeButton>
         </Modal.Header>
         <Modal.Body>
-        {user_coins>total?<div><p>Wohoo!,Congratulations Your Order Has been placed</p><ProgressBar animated now={100}/></div>:<p>You Dont have sufficient coins</p>}
+        {user_coins>total?<div><p>Wohoo! Congratulations Your Order Has been placed</p>
+        <p>Kindly Go to MyOrder to track your order</p>
+        <ProgressBar animated now={progress}/></div>:<p>You Dont have sufficient coins</p>}
         </Modal.Body>
       </Modal>
 
