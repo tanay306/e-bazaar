@@ -307,7 +307,7 @@ def cart():
                             FROM cart
                             INNER JOIN items on items.id = cart.item_id
                             INNER JOIN users on users.id = cart.user_id
-                            WHERE users.id = {session['user_id']}
+                            WHERE users.id = {session['user_id']} AND cart.ordered='False'
                             """)
     if result>0:
         cart_items = cur.fetchall()
@@ -390,12 +390,7 @@ def update_status(id):
 def add_orders():
     cur = mysql.connection.cursor()
     cur.execute("UPDATE cart SET ordered = %s WHERE user_id = %s", ("True",session['user_id']))
-    mysql.connection.commit()
-    print("INSERT INTO orders (user_id, item_id, cart_id) SELECT user_id, item_id, id FROM cart where ordered=%s AND user_id=%s",("True",session['user_id']))
-    
     cur.execute("INSERT INTO orders (user_id, item_id, cart_id) SELECT user_id, item_id, id FROM cart where ordered=%s AND user_id=%s",["True",session['user_id']])
-    mysql.connection.commit()
-    cur.execute("DELETE from cart where ordered=%s and user_id = %s", ("True",session['user_id']))
     mysql.connection.commit()
     cur.close()
     return jsonify({'message' : "Your Ordered has been placed"})

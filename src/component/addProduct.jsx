@@ -8,7 +8,7 @@ import {
   FormControl,
   Form,
 } from "react-bootstrap";
-const manageProduct = () => {
+const addProduct = () => {
   const [title, setTitle] = useState(null);
   const [description, setDescription] = useState(null);
   const [price, setPrice] = useState(null);
@@ -102,4 +102,4 @@ const manageProduct = () => {
   );
 };
 
-export default manageProduct;
+export default addProduct;
