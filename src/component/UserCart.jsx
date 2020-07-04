@@ -45,6 +45,16 @@ const UserCart = () => {
             })
             .catch(err => console.log(err))
         }
+         const buyNow =()=>{
+             fetch(`/add_orders`, {
+                 method: 'POST',
+                 headers: {
+                     'Content-Type': 'application-json'
+                 }
+             })
+            
+
+         }
         if (cart &&cart.length > 0 ){
             return (
                 <div className="container">
@@ -88,7 +98,7 @@ const UserCart = () => {
                     <div className='row'><h4>Number Of Items-{count}</h4></div>
                     <div className='row'><h4>Total Bill Amount-Rs {total}</h4></div>
                     {/* <div className='row'><h4>Congratulations You Saved-Rs {price}!</h4></div> */}
-                                        <div><Button variant='primary' onClick={handleShow} >Proceed to Buy</Button></div>
+                                        <div><Button variant='primary' onClick={buyNow} >Proceed to Buy</Button></div>
                                         <Modal show={show} onHide={handleClose} animation={false}>
         <Modal.Header closeButton>
         </Modal.Header>
