@@ -262,7 +262,8 @@ def products(title):
 @is_admin
 def admin_products():
     cur = mysql.connection.cursor()
-    result = cur.execute("SELECT * FROM items WHERE user_id=%s", (session['userID']))
+    result = cur.execute("SELECT * FROM items WHERE user_id=%s", [session['user_id']])
+    print(result)
     if result > 0:
         items = cur.fetchall()
         return jsonify({'items' : items})

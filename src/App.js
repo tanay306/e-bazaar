@@ -13,6 +13,7 @@ import ManageProduct from './component/ManageProduct';
 import SellerDashboard from './component/SellerDashboard';
 import AddProduct from './component/addProduct'
 import Bill from './component/Bill';
+import AdminProducts from './component/AdminProducts'
 
 const App = () => {
   return (
@@ -33,7 +34,7 @@ const App = () => {
       <Route path="/edit_items/:id" component={ManageProduct} />
       <Route path="/bill/:id" component={Bill} />
       <Route path="/seller-orders" render={() => <OrderTable />} />
-      <Route path="/seller-products" render={() => <ManageProduct />} />
+      <Route path="/seller-products" render={() => <AdminProducts />} />
       <Route path="/add-product" render={() => <AddProduct />} />
       <Route path="/" render={() => <AllProduct />} />
       </Switch>
