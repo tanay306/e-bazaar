@@ -80,7 +80,7 @@ class ProductDetails extends Component{
         
                 console.log(product)
                 if (product) {
-                  const {category,price,user_id,description,title,img,colour,size,disc_price}=product;
+                  const {category,price,user_id,description,title,img,colour,size,disc_price,seller}=product;
                   return(
                     <div className="container">
                       {showToast ? <Alert show={showToast} variant="success" dismissible onClose={() => this.setState({ showToast: false})}>{'Item added to cart'}</Alert>:null}
@@ -92,7 +92,7 @@ class ProductDetails extends Component{
                     <div className="col-md-5">
                     <div className="row" style={{ display: 'block' }}>
                     <div className={`${styles.paratext} col-md-8 mt-3 mb-3`}>
-                    <h4 className={`${styles.paratextContent} text-center text-dark`}>Seller-{user_id}</h4>
+                    <h4 className={`${styles.paratextContent} text-center text-dark`}>Seller-{seller}</h4>
                     <h4 className={`${styles.paratextContent} text-center text-dark`}>Name : {title}</h4>
                     <h4 className={`${styles.paratextContent} text-center text-dark`}>Description : {description}</h4>
                     <h4 className={`${styles.paratextContent} text-center text-dark`}>Colour : {colour}</h4>
