@@ -135,6 +135,7 @@ const SellerDashboard = () => {
                       <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                         <h6 className="m-0 font-weight-bold text-primary">Earnings Overview</h6>
                         <div className="dropdown no-arrow">
+                          
                           <a className="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i className="fas fa-ellipsis-v fa-sm fa-fw text-gray-400" />
                           </a>
@@ -150,7 +151,7 @@ const SellerDashboard = () => {
                       {/* Card Body */}
                       <div className="card-body">
                         <div className="chart-area">
-                          <canvas id="myAreaChart" />
+                        <img src="https://www.indiabix.com/_files/images/data-interpretation/line-charts/15-3-1-1.png" height="300px"/>
                         </div>
                       </div>
                     </div>
@@ -177,7 +178,7 @@ const SellerDashboard = () => {
                       {/* Card Body */}
                       <div className="card-body">
                         <div className="chart-pie pt-4 pb-2">
-                          <canvas id="myPieChart" />
+                          <img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Pie-chart.jpg" height="250px"/>
                         </div>
                         <div className="mt-4 text-center small">
                           <span className="mr-2">
