@@ -56,6 +56,7 @@ def register():
             'state_name' : state_name,
             'mobile_number' : mobile_number,
             'password' : password,
+            'message' : "Your account has been created.Please Login!!"
             }
         cur.close()
         return jsonify({'result' : result})

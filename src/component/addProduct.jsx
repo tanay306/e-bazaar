@@ -51,54 +51,63 @@ const addProduct = () => {
   }
   return (
     <div>
+    <div className="container">
+      <h2 className="text-danger">Add Items</h2>
+      <Card className="mb-5 mt-3">
       <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="title">
-          <Form.Label>Title</Form.Label>
-          <Form.Control onChange={e => setTitle((e.target.value))} type="text" placeholder="Enter Title" />
-        </Form.Group>
-        <Form.Group controlId="description">
-          <Form.Label>Description</Form.Label>
-          <Form.Control onChange={e => setDescription(e.target.value)} type="text" placeholder="Enter Description" />
-        </Form.Group>
-        <Form.Group controlId="price">
-          <Form.Label>Price</Form.Label>
-          <Form.Control onChange={e => setPrice(e.target.value)} type="text" placeholder="Enter Price" />
-        </Form.Group>
-        <Form.Group controlId="discPrice">
-          <Form.Label>Discounted Price</Form.Label>
-          <Form.Control onChange={e => setdiscPrice(e.target.value)} placeholder="Enter Discounted Price" />
-        </Form.Group>
-        <Form.Group controlId="size">
-          <Form.Label>Size</Form.Label>
-          <Form.Control onChange={e => setSize((e.target.value))} type="text" placeholder="Enter Size" />
-        </Form.Group>
-        <Form.Group controlId="colour">
-          <Form.Label>Colour</Form.Label>
-          <Form.Control onChange={e => setColour(e.target.value)} type="text" placeholder="Enter Colour" />
-        </Form.Group>
-        <Form.Group controlId="category">
-          <Form.Label>Category</Form.Label>
-          <Form.Control onChange={e => setCategory(e.target.value)} type="text" placeholder="Enter Category" />
-        </Form.Group>
-        <Form.Group controlId="type">
-          <Form.Label>Type</Form.Label>
-          <Form.Control onChange={e => setType(e.target.value)} placeholder="Enter Type" />
-        </Form.Group>
-        <Form.Group controlId="deliveryDays">
-          <Form.Label>Delivery Days</Form.Label>
-          <Form.Control onChange={e => setdeliveryDays(e.target.value)} type="text" placeholder="Enter Delivery Days" />
-        </Form.Group>
-        <Form.Group controlId="seller">
-          <Form.Label>Seller</Form.Label>
-          <Form.Control onChange={e => setSeller(e.target.value)} type="text" placeholder="Enter Seller" />
-        </Form.Group>
-        <Form.Group controlId="img">
-          <Form.Label>Image</Form.Label>
-          <Form.Control onChange={e => setImg(e.target.value)} placeholder="Enter Image" />
-        </Form.Group>
-        <Button variant="primary" type="submit">Cancel</Button>
-        <Button variant="primary" type="submit">Add</Button>
-      </Form>
+          <Form.Group controlId="title" className="ml-5 mr-5 mt-3">
+            <Form.Label><h3 className="text-dark">Title</h3></Form.Label>
+            <Form.Control onChange={e => setTitle((e.target.value))} type="text" size="lg" placeholder="Enter Title" />
+          </Form.Group>
+          <Form.Group controlId="description" className="ml-5 mr-5">
+            <Form.Label><h3 className="text-dark">Description</h3></Form.Label>
+            <Form.Control onChange={e => setDescription(e.target.value)} type="text" size="lg" placeholder="Enter Description" />
+          </Form.Group>
+          <Form.Group controlId="price" className="ml-5 mr-5">
+            <Form.Label><h3 className="text-dark">Price</h3></Form.Label>
+            <Form.Control onChange={e => setPrice(e.target.value)} type="number" size="lg" placeholder="Enter Price" />
+          </Form.Group>
+          <Form.Group controlId="discPrice" className="ml-5 mr-5">
+            <Form.Label><h3 className="text-dark">Discounted Price</h3></Form.Label>
+            <Form.Control onChange={e => setdiscPrice(e.target.value)} type="number" size="lg" placeholder="Enter Discounted Price" />
+          </Form.Group>
+          <Form.Group controlId="size" className="ml-5 mr-5">
+            <Form.Label><h3 className="text-dark">Size</h3></Form.Label>
+            <Form.Control onChange={e => setSize((e.target.value))} type="text" size="lg" placeholder="Enter Size" />
+          </Form.Group>
+          <Form.Group controlId="colour" className="ml-5 mr-5">
+            <Form.Label><h3 className="text-dark">Colour</h3></Form.Label>
+            <Form.Control onChange={e => setColour(e.target.value)} type="text" size="lg" placeholder="Enter Colour" />
+          </Form.Group>
+          <Form.Group controlId="category" className="ml-5 mr-5">
+            <Form.Label><h3 className="text-dark">Category</h3></Form.Label>
+            <Form.Control onChange={e => setCategory(e.target.value)} type="text" size="lg" placeholder="Enter Category" />
+          </Form.Group>
+          <Form.Group controlId="type" className="ml-5 mr-5">
+            <Form.Label><h3 className="text-dark">Type</h3></Form.Label>
+            <Form.Control onChange={e => setType(e.target.value)} type="text" size="lg" placeholder="Enter Type" />
+          </Form.Group>
+          <Form.Group controlId="deliveryDays" className="ml-5 mr-5">
+            <Form.Label><h3 className="text-dark">Delivery Days</h3></Form.Label>
+            <Form.Control onChange={e => setdeliveryDays(e.target.value)} type="text" size="lg" placeholder="Enter Delivery Days" />
+          </Form.Group>
+          <Form.Group controlId="seller" className="ml-5 mr-5">
+            <Form.Label><h3 className="text-dark">Seller</h3></Form.Label>
+            <Form.Control onChange={e => setSeller(e.target.value)} type="text" size="lg" placeholder="Enter Seller" />
+          </Form.Group>
+          <Form.Group controlId="img" className="ml-5 mr-5">
+            <Form.Label><h3 className="text-dark">Image</h3></Form.Label>
+            <Form.Control onChange={e => setImg(e.target.value)} type="text" size="lg" placeholder="Enter Image" />
+          </Form.Group>
+          <Button variant="danger" type="submit" size="large" className="mr-2 mb-2">
+          Cancel
+          </Button>
+          <Button variant="success" type="submit" size="large" className="ml-2  mb-2">
+          Add
+          </Button>
+        </Form>
+        </Card>
+    </div>
     </div>
   );
 };
