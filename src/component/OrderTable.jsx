@@ -1,7 +1,35 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {Table,Dropdown,Form} from "react-bootstrap";
+import SingleStatus from './SingleStatus';
 
 const OrderTable = () => {
+    const [cart, setCart] = useState([]);
+    const [count, setCount]=useState(0);
+    const [total, setTotal]= useState(0);
+    const[user_coins, setUser_coins]=useState(0)
+    const [show, setShow] = useState(false);
+    const [progress, setProgress] = useState(50);
+    useEffect(()=>{
+        fetch('/orders',{
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application-json'
+      }
+        })
+      .then(res=>res.json())
+      .then((res)=> {
+        console.log(res);
+        setCart(res.orders);
+        setCount(res.count);
+        setTotal(res.total);
+        setUser_coins(res.user_coins);
+      })
+      .catch(err=>console.log(err));
+        }, []);
+        const updateStatus =(id)=>{
+            console.log(id)
+
+        }
     return (
         <div className="container">
             <div className="row mb-4">
@@ -16,22 +44,19 @@ const OrderTable = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                    <td>1</td>
-                                    <td>
-                                        <Form>
-                                            <Form.Group controlId="formGridState">
-                                            <Form.Control as="select" value="Choose...">
-                                                <option>Ordered</option>
-                                                <option>Shipped</option>
-                                                <option>Out For Delivery</option>
-                                                <option>Delivered</option>
-                                                <option>Cancelled</option>
-                                            </Form.Control>
-                                            </Form.Group>
-                                        </Form>
-                                    </td>
-                                    </tr>
+                                {cart.map((cartItem) => {
+                                             
+                                             return (
+                                                 <tr>
+         
+                                         <td>{cartItem.id}</td>
+                                         <td><SingleStatus id={cartItem.id} prevStatus={cartItem.status}/></td>
+                                       
+                                        
+                                         </tr>
+                                             )
+                                         })}
+                         
                                 </tbody>
                             </Table>
                         </div>
