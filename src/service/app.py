@@ -36,25 +36,29 @@ def register():
     city_with_pincode = requestdata['city_with_pincode']
     state_name = requestdata['state']
     mobile_number = requestdata['mobile_number']
-    password = requestdata['password']
+    password = sha256_crypt.encrypt(str(requestdata['password']))
 
-    cur.execute("INSERT INTO users(username,full_name,email,address,area,city_with_pincode,state_name,mobile_number,password) VALUES( %s, %s, %s, %s,%s,%s,%s,%s,%s)",
-                        (username,full_name,email,address,area,city_with_pincode,state_name,mobile_number,password))
-    mysql.connection.commit()
+    result = cur.execute('SELECT email FROM users WHERE username=%s', [username])
+    if result > 0:
+        return jsonify({"error_message": "The email username has already been taken"})
+    else:
+        cur.execute("INSERT INTO users(username,full_name,email,address,area,city_with_pincode,state_name,mobile_number,password) VALUES( %s, %s, %s, %s,%s,%s,%s,%s,%s)",
+                    (username,full_name,email,address,area,city_with_pincode,state_name,mobile_number,password))
+        mysql.connection.commit()
 	
-    result = {
-		'username' : username,
-		'full_name' : full_name,
-		'email' : email,
-        'address' : address,
-        'area' : area,
-        'city_with_pincode' : city_with_pincode,
-        'state_name' : state_name,
-        'mobile_number' : mobile_number,
-		'password' : password,
-	}
-    cur.close()
-    return jsonify({'result' : result})
+        result = {
+            'username' : username,
+            'full_name' : full_name,
+            'email' : email,
+            'address' : address,
+            'area' : area,
+            'city_with_pincode' : city_with_pincode,
+            'state_name' : state_name,
+            'mobile_number' : mobile_number,
+            'password' : password,
+            }
+        cur.close()
+        return jsonify({'result' : result})
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -68,8 +72,8 @@ def login():
         data = cur.fetchone()
         userID = data['id']
         role = data['role']
-
-        if data['password'] == password:
+        
+        if sha256_crypt.verify(password, data['password']):
             session['logged_in'] = True
             session['username'] = username
             session['role'] = role
