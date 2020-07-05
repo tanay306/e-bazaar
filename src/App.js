@@ -8,8 +8,10 @@ import UserProfile from './component/UserProfle';
 import Login from './component/Login';
 import UserCart from './component/UserCart';
 import UserOrders from './component/UserOrders';
+import OrderTable from './component/OrderTable';
 import ManageProduct from './component/ManageProduct';
 import SellerDashboard from './component/SellerDashboard';
+import AddProduct from './component/addProduct'
 import Bill from './component/Bill';
 
 const App = () => {
@@ -30,6 +32,9 @@ const App = () => {
       <Route path="/seller" render={() => <SellerDashboard />} />
       <Route path="/edit_items/:id" component={ManageProduct} />
       <Route path="/bill/:id" component={Bill} />
+      <Route path="/seller-orders" render={() => <OrderTable />} />
+      <Route path="/seller-products" render={() => <ManageProduct />} />
+      <Route path="/add-product" render={() => <AddProduct />} />
       <Route path="/" render={() => <AllProduct />} />
       </Switch>
     </div>

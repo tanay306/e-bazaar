@@ -8,56 +8,35 @@ const SellerDashboard = () => {
         {/* Page Wrapper */}
         <div id="wrapper">
           {/* Sidebar */}
-          <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+          <ul className="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
             {/* Sidebar - Brand */}
-            <a className="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-              <div className="sidebar-brand-icon rotate-n-15">
-                <i className="fas fa-laugh-wink" />
-              </div>
-              <div className="sidebar-brand-text mx-3">#name<sup>2</sup></div>
-            </a>
-            {/* Divider */}
-            <hr className="sidebar-divider my-0" />
+           
             {/* Nav Item - Dashboard */}
             <li className="nav-item active">
               <a className="nav-link" href="index.html">
                 <i className="fas fa-fw fa-tachometer-alt" />
-                <span>My Dashboard</span></a>
-            </li>
-            {/* Divider */}
-            <hr className="sidebar-divider" />
-            {/* Heading */}
-            <div className="sidebar-heading">
-              Interface
-            </div>
-            {/* Nav Item - Charts */}
-            <li className="nav-item">
-              <a className="nav-link" href="#">
-                <i className="fas fa-fw fa-chart-area" />
-                <span>Statistics</span></a>
+                <span>Dashboard</span></a>
             </li>
             {/* Divider */}
             <hr className="sidebar-divider" />
             {/* Nav Item - Charts */}
             <li className="nav-item">
-              <a className="nav-link" href="#">
-                <i className="fas fa-fw fa-chart-area" />
-                <span>Manage order</span></a>
+              <a className="nav-link" href="/add-product">
+                <span>Add Product</span></a>
             </li>
-            {/* Divider */}
             <hr className="sidebar-divider" />
-            {/* Nav Item - Tables */}
             <li className="nav-item">
-              <a className="nav-link" href="#">
-                <i className="fas fa-fw fa-table" />
+              <a className="nav-link" href="/seller-products">
+  
                 <span>Manage my products</span></a>
             </li>
-            {/* Divider */}
-            <hr className="sidebar-divider d-none d-md-block" />
-            {/* Sidebar Toggler (Sidebar) */}
-            <div className="text-center d-none d-md-inline">
-              <button className="rounded-circle border-0" id="sidebarToggle" />
-            </div>
+            <hr className="sidebar-divider" />
+            <li className="nav-item">
+              <a className="nav-link" href="/seller-orders">
+
+                <span>Manage order</span></a>
+            </li>
+ 
           </ul>
           {/* End of Sidebar */}
           {/* Content Wrapper */}
