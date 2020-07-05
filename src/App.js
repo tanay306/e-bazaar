@@ -13,12 +13,12 @@ import ManageProduct from './component/ManageProduct';
 import SellerDashboard from './component/SellerDashboard';
 import AddProduct from './component/addProduct'
 import Bill from './component/Bill';
+import Coins from './component/Coins'
 import AdminProducts from './component/AdminProducts'
 
 const App = () => {
   return (
     <Router>
-      
     <div className="App" style={{ overflowX: 'hidden' }}>
         <NavbarComponent />
         <br /><br />
@@ -32,6 +32,7 @@ const App = () => {
       <Route path="/myOrders" render={() => <UserOrders />} />
       <Route path="/seller" render={() => <SellerDashboard />} />
       <Route path="/edit_items/:id" component={ManageProduct} />
+      <Route path="/coins" component={Coins} />
       <Route path="/bill/:id" component={Bill} />
       <Route path="/seller-orders" render={() => <OrderTable />} />
       <Route path="/seller-products" render={() => <AdminProducts />} />

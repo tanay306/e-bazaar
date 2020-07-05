@@ -29,32 +29,32 @@ const Bill = (props) => {
         <div className="container">
             <div className="row mb-4">
                 <div className="col-sm-12 grid-margin">
-                <Card>
+                <Card className="mt-3">
                     <Card.Header className="text-center">e-Bazaar</Card.Header>
                     <Card.Body>
                         <div className="row mb-4">
                             <div className="col-sm-6 grid-margin">
                                 <Card.Title className="text-center"><b>Seller</b></Card.Title>
-                                <Card.Text className="text-center"><b>Name:</b> Apple</Card.Text>
+                                <Card.Text className="text-center text-dark"><b>Name:</b> Apple</Card.Text>
                             </div>
                             <div className="col-sm-6 grid-margin">
                                 <Card.Title className="text-center"><b>Customer</b></Card.Title>
-    <Card.Text className="text-center"><b>Name:</b> {localStorage.getItem('username')}</Card.Text>
-    <Card.Text className="text-center"><b>UserId:</b> {localStorage.getItem('userId')}</Card.Text>
-                                <Card.Text className="text-center"><b>Mobile Number:</b> 1234567890</Card.Text>
+    <Card.Text className="text-center text-dark"><b>Name:</b> {localStorage.getItem('username')}</Card.Text>
+    <Card.Text className="text-center text-dark"><b>UserId:</b> {localStorage.getItem('userId')}</Card.Text>
+                                <Card.Text className="text-center text-dark"><b>Mobile Number:</b> 1234567890</Card.Text>
                             </div>
                         </div>
                         <div className="row mb-4">
                             <div className="col-sm-12 grid-margin">
-                                <Card.Title className="text-center"><b>Items</b></Card.Title>
+                                <Card.Title className="text-center text-dark"><b>Items</b></Card.Title>
                                 <Table size="sm">
                                     <thead>
                                     <tr>
-                                            <th>Item Id</th>
-                                            <th>Cart Id</th>
-                                            <th>Title</th>
-                                            <th>Price</th>
-                                            <th>Discount Price</th>
+                                            <th className="text-dark">Item Id</th>
+                                            <th className="text-dark">Cart Id</th>
+                                            <th className="text-dark">Title</th>
+                                            <th className="text-dark">Price</th>
+                                            <th className="text-dark">New Price</th>
                                             </tr>
                                     </thead>
                                 {billData && billData.length > 0 ? billData.map((data) => {
@@ -71,8 +71,8 @@ const Bill = (props) => {
                                 }) : 'hi'}
                                 </Table>
                                 <div style={{ display: 'inline-flex', justifyContent:'space-evenly'}}>
-                                <Card.Text><b>Count:</b> {count}</Card.Text>&nbsp;&nbsp;
-                                <Card.Text><b>Total:</b> {total}</Card.Text>
+                                <Card.Text className="text-dark"><b>Total Items:</b> {count}</Card.Text>&nbsp;&nbsp;
+                                <Card.Text className="text-dark"><b>Total Cost:</b> {total}</Card.Text>
                                 </div>
                                 <Card.Text><Button variant="primary">Download Invoice</Button></Card.Text>
                             </div>

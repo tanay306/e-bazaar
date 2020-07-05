@@ -4,6 +4,7 @@ import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import Login from './Login';
 import Logout from './Logout';
 import UserProfile from './UserProfle';
+import addCoins from './Coins';
 import AdminLogin from './AdminLogin';
 import './Navbar.css';
 
@@ -24,6 +25,8 @@ const NavbarComponent = () => {
             {username ? 
               <NavDropdown title={`WELCOME ${username}`} id="basic-nav-dropdown" className="text-white">
               <NavDropdown.Item href="/userProfile"><Link to="/userProfile">User Profile</Link></NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item href="/coins"><Link to="/coins">Add Coins</Link></NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item><Logout /></NavDropdown.Item>
             </NavDropdown> : <Login />   

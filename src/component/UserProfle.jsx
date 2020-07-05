@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import './UserProfile.css';
+import {Button} from "react-bootstrap";
 
 const UserProfile = () => {
   const userId = localStorage.getItem('userId');
@@ -59,6 +60,7 @@ if (userDetails) {
                 </div>
               </div>
             </div>
+            <Button variant="danger" size="lg" className="align-center">Edit Profile</Button>{' '}
           </div>
         </div>
         <div className="col-lg-6">
