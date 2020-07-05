@@ -316,7 +316,7 @@ def cart():
             print(cart_item)
             total = total + float(cart_item['disc_price'])
             count = count + 1
-            user_coins = int(cart_item['coins'])
+            user_coins = int(float(cart_item['coins']))
         if user_coins >= total:
             cur.execute("UPDATE cart SET sufficient_balance = %s WHERE user_id = %s", ("True",session['user_id']))
             mysql.connection.commit()
