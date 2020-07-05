@@ -107,6 +107,7 @@ def is_logged_in(f):
 def is_admin(f):
     @wraps(f)
     def wrap(*args, **kwargs):
+        print(session)
         if session['role'] == 'admin':
             return f(*args, **kwargs)
         else:
@@ -191,12 +192,11 @@ def add_items():
         category = requestdata['category']
         type_item = requestdata['type']
         delivery_in_days = requestdata['delivery_in_days']
-        seller = requestdata['seller']
         img = requestdata['img']
         
         cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO items(user_id, title, description, price, disc_price, size, colour, category, type, delivery_in_days, seller, img) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-                    (session['userID'], title, description, price, disc_price, size, colour, category, type_item, delivery_in_days, seller, img))
+        cur.execute("INSERT INTO items(user_id, title, description, price, disc_price, size, colour, category, type, delivery_in_days, img) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                    (session['user_id'], title, description, price, disc_price, size, colour, category, type_item, delivery_in_days, img))
         mysql.connection.commit()
         cur.close()
         return jsonify({'message' : "Item Added"})

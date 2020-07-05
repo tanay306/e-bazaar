@@ -22,7 +22,7 @@ const AddProduct = () => {
   const [seller, setSeller] = useState(null);
   const [img, setImg] = useState(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e) => {console.log(title)
     e.preventDefault();
     const data = {
       title, 

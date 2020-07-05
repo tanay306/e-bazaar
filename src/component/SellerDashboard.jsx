@@ -13,8 +13,8 @@ const SellerDashboard = () => {
            
             {/* Nav Item - Dashboard */}
             <li className="nav-item active">
-              <a className="nav-link" href="index.html">
-                <i className="fas fa-fw fa-tachometer-alt" />
+              <a className="nav-link" href="/seller">
+                
                 <span>Dashboard</span></a>
             </li>
             {/* Divider */}
