@@ -3,7 +3,8 @@ import filter from 'lodash/filter';
 import {Table, Button} from "react-bootstrap";
 import styles from './UserCart.module.css';
 
-const UserCart = () => {
+const AdminProducts = () => {
+    const [cart,setCart]= useState([]);
     useEffect(()=>{
         fetch('/admin_products',{
           method: 'GET',
@@ -13,6 +14,7 @@ const UserCart = () => {
         })
       .then(res=>res.json())
       .then((res)=> {
+          setCart(res.items)
         console.log(res);})
       .catch(err=>console.log(err));
         }, []);
@@ -30,10 +32,11 @@ const UserCart = () => {
             })
             .catch(err => console.log(err))
         }
+
         if (cart &&cart.length > 0 ){
             return (
                 <div className="container">
-                    <div className={`${styles.title} text-center`} ><h1><u>YOUR CART</u></h1></div>
+                    <div className={`${styles.title} text-center`} ><h1><u>Your Products</u></h1></div>
                     <div className="row mb-4">
                         <div className="col-sm-12 grid-margin">
                                     <Table hover responsive size="sm" variant="dark">
@@ -57,7 +60,7 @@ const UserCart = () => {
                                             <td>{cartItem.description}</td>
                                             <td>{cartItem.disc_price}</td>
                                             <td>{cartItem.price}</td>
-                                            <td><Button variant="danger" onClick={() => deleteFromCart(cartItem.title)}>Remove</Button></td>
+                                            <td><Button variant="danger" onClick={() => deleteFromProducts(cartItem.title)}>Remove</Button></td>
                                             </tr>
                                                 )
                                             })}
@@ -73,4 +76,4 @@ const UserCart = () => {
     return <h6>No product has been added by you!!!!</h6>
 }
 
-export default UserCart;
+export default AdminProducts;

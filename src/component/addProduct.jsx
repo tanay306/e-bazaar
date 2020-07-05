@@ -9,7 +9,7 @@ import {
   FormControl,
   Form,
 } from "react-bootstrap";
-const addProduct = () => {
+const AddProduct = () => {
   const [title, setTitle] = useState(null);
   const [description, setDescription] = useState(null);
   const [price, setPrice] = useState(null);
@@ -19,10 +19,10 @@ const addProduct = () => {
   const [category, setCategory] = useState(null);
   const [type, setType] = useState(null);
   const [deliveryDays, setdeliveryDays] = useState(null);
-  const [seller, setSeller] = uSeState(null);
-  const [img, setImg] = uSeState(null);
+  const [seller, setSeller] = useState(null);
+  const [img, setImg] = useState(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e) => {console.log(title)
     e.preventDefault();
     const data = {
       title, 
@@ -112,4 +112,4 @@ const addProduct = () => {
   );
 };
 
-export default addProduct;
+export default AddProduct;

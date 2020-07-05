@@ -108,6 +108,7 @@ def is_logged_in(f):
 def is_admin(f):
     @wraps(f)
     def wrap(*args, **kwargs):
+        print(session)
         if session['role'] == 'admin':
             return f(*args, **kwargs)
         else:
@@ -192,12 +193,11 @@ def add_items():
         category = requestdata['category']
         type_item = requestdata['type']
         delivery_in_days = requestdata['delivery_in_days']
-        seller = requestdata['seller']
         img = requestdata['img']
         
         cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO items(user_id, title, description, price, disc_price, size, colour, category, type, delivery_in_days, seller, img) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-                    (session['userID'], title, description, price, disc_price, size, colour, category, type_item, delivery_in_days, seller, img))
+        cur.execute("INSERT INTO items(user_id, title, description, price, disc_price, size, colour, category, type, delivery_in_days, img) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                    (session['user_id'], title, description, price, disc_price, size, colour, category, type_item, delivery_in_days, img))
         mysql.connection.commit()
         cur.close()
         return jsonify({'message' : "Item Added"})
@@ -263,7 +263,8 @@ def products(title):
 @is_admin
 def admin_products():
     cur = mysql.connection.cursor()
-    result = cur.execute("SELECT * FROM items WHERE user_id=%s", (session['userID']))
+    result = cur.execute("SELECT * FROM items WHERE user_id=%s", [session['user_id']])
+    print(result)
     if result > 0:
         items = cur.fetchall()
         return jsonify({'items' : items})
@@ -321,7 +322,7 @@ def cart():
             print(cart_item)
             total = total + float(cart_item['disc_price'])
             count = count + 1
-            user_coins = int(cart_item['coins'])
+            user_coins = int(float(cart_item['coins']))
         if user_coins >= total:
             cur.execute("UPDATE cart SET sufficient_balance = %s WHERE user_id = %s", ("True",session['user_id']))
             mysql.connection.commit()
